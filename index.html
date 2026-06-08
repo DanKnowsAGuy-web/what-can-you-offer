@@ -131,6 +131,16 @@
   .mini:hover { border-color: var(--muted); color: var(--cream); }
   .mini.active { border-color: var(--amber); color: var(--navy); background: var(--amber); }
 
+  /* CONSOLATION TIER (revealed when funding = No) */
+  .tier { display: none; flex-direction: column; gap: 0.6rem; background: rgba(var(--amber-rgb), 0.045); border-top: 1px solid var(--border); padding: 1rem 1.15rem 1.1rem; }
+  .tier.open { display: flex; }
+  .tier-head { font-size: var(--t-sm); font-weight: 600; color: var(--cream); line-height: 1.45; }
+  .tier-options { display: flex; flex-direction: column; }
+  .chk { display: flex; align-items: center; gap: 0.7rem; min-height: 44px; font-size: var(--t-sm); color: var(--cream); cursor: pointer; }
+  .chk input { width: 20px; height: 20px; flex-shrink: 0; accent-color: var(--amber); cursor: pointer; }
+  .chk:hover { color: var(--white); }
+  .tier-note { font-size: 0.95rem; font-style: italic; color: var(--muted); line-height: 1.45; }
+
   /* SECTION FOOTER */
   .section-foot { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding: 2rem 0 5rem; }
   .foot-left { display: flex; flex-direction: column; gap: 0.5rem; }
@@ -315,38 +325,35 @@
     <span class="label">Section 1</span>
     <span class="sec-bar-title">Financial Services &amp; Incentives</span>
     <div class="sec-track"><div class="sec-fill" id="fill-s1"></div></div>
-    <span class="sec-count" id="count-s1">0 of 5 answered</span>
+    <span class="sec-count" id="count-s1">0 of 3 answered</span>
   </div>
   <div class="wrap section-body">
     <p class="section-intro">These are the services that turn a good energy proposal into one a client cannot walk away from. Most energy vendors carry none of them, which makes this one of the clearest gaps in the market.</p>
     <div class="grid grid-2" id="grid-s1">
 
+      <div class="item" id="sc-funding">
+        <div class="item-head"><span class="idx">01</span><div><span class="item-name">Utility &amp; State Program Funding</span><span class="item-desc">Get 75 to 100% of a client's energy project paid for directly by utility companies and state agencies. The client upgrades with little or nothing out of pocket.</span></div></div>
+        <div class="item-actions"><button class="yn yes" data-card="sc-funding" data-section="s1" data-val="yes">Yes</button><button class="yn no" data-card="sc-funding" data-section="s1" data-val="no">No</button><button class="yn skip" data-card="sc-funding" data-section="s1" data-val="skip">Not sure</button></div>
+        <div class="fb" id="fb-sc-funding" role="status" aria-live="polite"></div>
+        <div class="tier" id="funding-tier">
+          <div class="tier-head">You can't cover the whole project yet. Which of these can you at least stack?</div>
+          <div class="tier-options">
+            <label class="chk"><input type="checkbox" class="chk-input" data-card="sc-taxcred"><span>Tax Credits (ITC, 30C)</span></label>
+            <label class="chk"><input type="checkbox" class="chk-input" data-card="sc-taxded"><span>Tax Deductions (179D, bonus depreciation)</span></label>
+            <label class="chk"><input type="checkbox" class="chk-input" data-card="sc-grants"><span>Specialty Grants</span></label>
+          </div>
+          <div class="tier-note">Second tier: these reduce the client's cost, they don't erase it.</div>
+        </div>
+      </div>
+
       <div class="item" id="sc-utility">
-        <div class="item-head"><span class="idx">01</span><div><span class="item-name">Utility Rate Negotiation</span><span class="item-desc">5 to 40% savings in deregulated markets. In regulated markets, we verify clients are not being improperly billed.</span></div></div>
+        <div class="item-head"><span class="idx">02</span><div><span class="item-name">Utility Rate Negotiation</span><span class="item-desc">5 to 40% savings in deregulated markets. In regulated markets, we verify clients are not being improperly billed.</span></div></div>
         <div class="item-actions"><button class="yn yes" data-card="sc-utility" data-section="s1" data-val="yes">Yes</button><button class="yn no" data-card="sc-utility" data-section="s1" data-val="no">No</button><button class="yn skip" data-card="sc-utility" data-section="s1" data-val="skip">Not sure</button></div>
         <div class="fb" id="fb-sc-utility" role="status" aria-live="polite"></div>
       </div>
 
-      <div class="item" id="sc-taxcred">
-        <div class="item-head"><span class="idx">02</span><div><span class="item-name">Tax Credits (ITC, 30C)</span><span class="item-desc">30% Investment Tax Credit, 30C Alternative Fuel credit. Performance-based fee, nothing owed unless credits are confirmed.</span></div></div>
-        <div class="item-actions"><button class="yn yes" data-card="sc-taxcred" data-section="s1" data-val="yes">Yes</button><button class="yn no" data-card="sc-taxcred" data-section="s1" data-val="no">No</button><button class="yn skip" data-card="sc-taxcred" data-section="s1" data-val="skip">Not sure</button></div>
-        <div class="fb" id="fb-sc-taxcred" role="status" aria-live="polite"></div>
-      </div>
-
-      <div class="item" id="sc-taxded">
-        <div class="item-head"><span class="idx">03</span><div><span class="item-name">Tax Deductions (179D, Bonus Depreciation)</span><span class="item-desc">179D up to $5.94 per sq ft on qualifying upgrades. 40% bonus depreciation. Nothing owed unless savings are confirmed.</span></div></div>
-        <div class="item-actions"><button class="yn yes" data-card="sc-taxded" data-section="s1" data-val="yes">Yes</button><button class="yn no" data-card="sc-taxded" data-section="s1" data-val="no">No</button><button class="yn skip" data-card="sc-taxded" data-section="s1" data-val="skip">Not sure</button></div>
-        <div class="fb" id="fb-sc-taxded" role="status" aria-live="polite"></div>
-      </div>
-
-      <div class="item" id="sc-grants">
-        <div class="item-head"><span class="idx">04</span><div><span class="item-name">Specialty Grants</span><span class="item-desc">Federal, state, and utility-sponsored grant identification and application support for qualified clients.</span></div></div>
-        <div class="item-actions"><button class="yn yes" data-card="sc-grants" data-section="s1" data-val="yes">Yes</button><button class="yn no" data-card="sc-grants" data-section="s1" data-val="no">No</button><button class="yn skip" data-card="sc-grants" data-section="s1" data-val="skip">Not sure</button></div>
-        <div class="fb" id="fb-sc-grants" role="status" aria-live="polite"></div>
-      </div>
-
       <div class="item" id="sc-financing">
-        <div class="item-head"><span class="idx">05</span><div><span class="item-name">Client Project Financing</span><span class="item-desc">Day-one cash-flow-positive financing. The client's first payment is covered by the savings the project generates.</span></div></div>
+        <div class="item-head"><span class="idx">03</span><div><span class="item-name">Client Project Financing</span><span class="item-desc">Day-one cash-flow-positive financing. The client's first payment is covered by the savings the project generates.</span></div></div>
         <div class="item-actions"><button class="yn yes" data-card="sc-financing" data-section="s1" data-val="yes">Yes</button><button class="yn no" data-card="sc-financing" data-section="s1" data-val="no">No</button><button class="yn skip" data-card="sc-financing" data-section="s1" data-val="skip">Not sure</button></div>
         <div class="fb" id="fb-sc-financing" role="status" aria-live="polite"></div>
       </div>
@@ -355,7 +362,7 @@
     <div class="section-foot">
       <div class="foot-left">
         <button class="foot-back" type="button" data-goto="screen-intro">← Back to start</button>
-        <p class="foot-status" id="status-s1">Answer all 5 items, then continue to Section 2.</p>
+        <p class="foot-status" id="status-s1">Answer all 3 items, then continue to Section 2.</p>
       </div>
       <button class="btn next" id="next-s1" type="button" data-goto="screen-s2">Next: Technology Stack →</button>
     </div>
@@ -540,6 +547,7 @@
 // FEEDBACK COPY (refined to PRODUCT.md voice; no em dashes)
 // ─────────────────────────────────────────────
 const FEEDBACK = {
+  'sc-funding':  { yes: 'This is the most powerful lever in energy sales. When the utility or the state covers most of the cost, price stops being the objection and the only question is when to start. Very few partners can actually deliver this.', no: 'This is the single biggest differentiator in the market, and most vendors do not know these programs exist. It is also the hardest to build, so let\'s see what you can stack in the meantime.', skip: 'Worth nailing down before your next proposal. If you can move a client into utility or state program funding, it reshapes every deal. If not yet, the incentives below are your next best lever.' },
   'sc-utility':  { yes: 'The fastest no-equipment win in the stack. It works in deregulated markets and flags improper billing in regulated ones.', no: 'Clients overpay on utility rates in deregulated markets, and many are improperly billed in regulated ones. This is the easiest first win you are currently leaving behind.' },
   'sc-taxcred':  { yes: 'The 30% ITC alone can reshape a decision on a project the client already wanted.', no: 'Tax credits add 20 to 40% of effective value to every qualifying project. Clients who know about them expect their advisor to as well.' },
   'sc-taxded':   { yes: '179D is one of the most underused tools in commercial energy. Most clients have never heard of it, which is the advantage when you lead with it.', no: '179D runs up to $5.94 per square foot on qualifying upgrades. On a 50,000 square foot facility that is nearly $300,000 in deductions your client is not receiving.' },
@@ -593,6 +601,7 @@ const SOLUTIONS = [
   { id:'sc-battery',  label:'Battery Storage & Peak Shaving',      subs:[], subKey:null },
   { id:'sc-ev',       label:'EV Charging Infrastructure',          subs:[], subKey:null },
   { id:'sc-customrd', label:'Custom R&D & Manufacturing',          subs:[], subKey:null },
+  { id:'sc-funding',  label:'Utility & State Program Funding',     subs:[], subKey:null },
   { id:'sc-utility',  label:'Utility Rate Negotiation',            subs:[], subKey:null },
   { id:'sc-taxcred',  label:'Tax Credits (ITC, 30C)',              subs:[], subKey:null },
   { id:'sc-taxded',   label:'Tax Deductions (179D)',               subs:[], subKey:null },
@@ -603,7 +612,7 @@ const TOTAL_SOL = SOLUTIONS.length;
 const LABELS = {}; SOLUTIONS.forEach(s => LABELS[s.id] = s.label);
 
 const SECTION_IDS = {
-  s1: ['sc-utility','sc-taxcred','sc-taxded','sc-grants','sc-financing'],
+  s1: ['sc-funding','sc-utility','sc-financing'],
   s2: ['sc-hvac','sc-refrig','sc-powerq','sc-motors','sc-led','sc-envelope','sc-iot','sc-solar','sc-battery','sc-ev','sc-customrd'],
 };
 const ALL_IDS = [...SECTION_IDS.s1, ...SECTION_IDS.s2];
@@ -764,7 +773,28 @@ document.querySelectorAll('.yn').forEach(btn => {
         if (badge) { badge.textContent = ''; badge.className = 'badge'; }
       }
     }
+    // Funding: No reveals the incentive consolation tier; Yes / Not sure hides it
+    // and clears the incentives (they are "not assessed" when full funding is in play).
+    if (cardId === 'sc-funding') {
+      const tier = document.getElementById('funding-tier');
+      const open = (val === 'no');
+      tier.classList.toggle('open', open);
+      if (!open) {
+        ['sc-taxcred','sc-taxded','sc-grants'].forEach(id => { delete cardAnswers[id]; });
+        tier.querySelectorAll('.chk-input').forEach(c => { c.checked = false; });
+      }
+    }
     updateProgress(section);
+  });
+});
+
+// ─────────────────────────────────────────────
+// CONSOLATION CHECKBOXES (incentives, only when funding = No)
+// ─────────────────────────────────────────────
+document.querySelectorAll('.chk-input').forEach(c => {
+  c.addEventListener('change', () => {
+    const id = c.dataset.card;
+    if (c.checked) cardAnswers[id] = 'yes'; else delete cardAnswers[id];
   });
 });
 
@@ -807,7 +837,10 @@ function statusOf(item) {
 // RESULTS
 // ─────────────────────────────────────────────
 function showResults() {
-  const sol = SOLUTIONS.map(s => ({ ...s, status: statusOf(s) }));
+  const fundingYes = cardAnswers['sc-funding'] === 'yes';
+  const NOT_ASSESSED = fundingYes ? ['sc-taxcred','sc-taxded','sc-grants'] : [];
+  const sol = SOLUTIONS.filter(s => !NOT_ASSESSED.includes(s.id)).map(s => ({ ...s, status: statusOf(s) }));
+  const TOTAL = sol.length; // dynamic: 17, or 14 when full program funding is in play
   const solYes = sol.filter(s => s.status !== 'gap').length;
   const solFull = sol.filter(s => s.status === 'have').length;
   const solPartial = sol.filter(s => s.status === 'partial').length;
@@ -817,25 +850,25 @@ function showResults() {
 
   // scores
   document.getElementById('r-sol').textContent = solYes;
-  document.getElementById('r-sol').style.color = solYes/TOTAL_SOL >= 0.6 ? 'var(--amber-light)' : solYes/TOTAL_SOL >= 0.3 ? 'var(--amber)' : 'var(--red)';
-  document.getElementById('r-sol-den').textContent = ' / ' + TOTAL_SOL;
+  document.getElementById('r-sol').style.color = solYes/TOTAL >= 0.6 ? 'var(--amber-light)' : solYes/TOTAL >= 0.3 ? 'var(--amber)' : 'var(--red)';
+  document.getElementById('r-sol-den').textContent = ' / ' + TOTAL;
   document.getElementById('r-full').textContent = solFull;
-  document.getElementById('r-full').style.color = solFull/TOTAL_SOL >= 0.5 ? 'var(--green)' : solFull/TOTAL_SOL >= 0.25 ? 'var(--amber-light)' : 'var(--red)';
-  document.getElementById('r-full-den').textContent = ' / ' + TOTAL_SOL;
+  document.getElementById('r-full').style.color = solFull/TOTAL >= 0.5 ? 'var(--green)' : solFull/TOTAL >= 0.25 ? 'var(--amber-light)' : 'var(--red)';
+  document.getElementById('r-full-den').textContent = ' / ' + TOTAL;
   document.getElementById('r-fac').textContent = qualified;
   document.getElementById('r-fac').style.color = qualified >= 4 ? 'var(--green)' : qualified >= 2 ? 'var(--amber-light)' : 'var(--red)';
 
   // verdict
-  const pct = solYes / TOTAL_SOL;
+  const pct = solYes / TOTAL;
   let verdict, sting;
   if (pct < 0.2) {
-    verdict = 'You answered Yes to <em>' + solYes + ' of ' + TOTAL_SOL + '</em> available solutions. Your clients carry far more problems than your current offer can answer.';
+    verdict = 'You answered Yes to <em>' + solYes + ' of ' + TOTAL + '</em> available solutions. Your clients carry far more problems than your current offer can answer.';
     sting = 'Every conversation leaves most of the deal on the table. That points to the offer, not the selling, and the offer is the part with a direct fix.';
   } else if (pct < 0.45) {
-    verdict = 'A real foundation, with <em>' + (TOTAL_SOL - solYes) + ' solution gaps</em> that become questions you cannot answer when a client asks.';
+    verdict = 'A real foundation, with <em>' + (TOTAL - solYes) + ' solution gaps</em> that become questions you cannot answer when a client asks.';
     sting = 'You are ahead of most. The gaps are the conversations that end before they start, and the clients who need a complete answer are in the market right now.';
   } else if (pct < 0.7) {
-    verdict = 'A solid offer. The <em>' + solPartial + ' partial ' + (solPartial === 1 ? 'category' : 'categories') + '</em> and ' + (TOTAL_SOL - solYes) + ' gaps are still costing you in every conversation.';
+    verdict = 'A solid offer. The <em>' + solPartial + ' partial ' + (solPartial === 1 ? 'category' : 'categories') + '</em> and ' + (TOTAL - solYes) + ' gaps are still costing you in every conversation.';
     sting = 'You have built something real. The remaining gaps are where deals slip, and financing, tax credits, and specialty depth are often the deciding factor.';
   } else {
     verdict = 'A strong offer. The open question is whether it is backed by the team and infrastructure to <em>deliver at scale.</em>';
@@ -857,8 +890,9 @@ function showResults() {
     closestEl.classList.add('show');
   } else { closestEl.classList.remove('show'); closestEl.innerHTML = ''; }
 
-  // facility grid
-  document.getElementById('r-fac-grid').innerHTML = facResults.map((f, i) => {
+  // facility grid (+ caveat when full funding hid the incentives)
+  const facCaveat = fundingYes ? '<p class="block-note" style="grid-column:1/-1;margin:0;padding:1rem 1.3rem;font-style:italic;background:var(--navy-card)">You answered Yes to full program funding, so Tax Credits, Tax Deductions, and Specialty Grants were not assessed. Any incentive requirements shown below may be covered by that funding; confirm with Daniel.</p>' : '';
+  document.getElementById('r-fac-grid').innerHTML = facCaveat + facResults.map((f, i) => {
     const label = f.status === 'qualified' ? 'Qualified' : f.status === 'partial' ? 'Partial' : 'Not yet';
     const msgs = f.messages.map(m => '<li class="fac-msg">' + m + '</li>').join('');
     return '<article class="fac-card ' + f.status + ' reveal" style="--i:' + i + '"><div class="fac-top"><span class="fac-name">' + f.name + '</span><span class="fac-status">' + label + '</span></div><ul class="fac-msgs">' + msgs + '</ul></article>';
@@ -890,24 +924,25 @@ function showResults() {
     yours += '<li class="sol-row ' + s.status + '"><span class="sol-ico">' + ico + '</span><span class="sol-name">' + s.label + tag + '</span></li>';
     full += '<li class="sol-row ' + (s.status !== 'gap' ? 'have' : 'added') + '"><span class="sol-ico">' + (s.status !== 'gap' ? '✓' : '+') + '</span><span class="sol-name">' + s.label + '</span></li>';
   });
+  const cmpCaveat = fundingYes ? '<p class="block-note" style="grid-column:1/-1;margin:0;padding:1rem 2.25rem;font-style:italic;background:var(--navy-card)">Tax Credits, Tax Deductions, and Specialty Grants are not listed here. With full program funding, they were not assessed.</p>' : '';
   document.getElementById('r-compare').innerHTML =
-    '<div class="compare-col yours"><div class="compare-head">Your offer today (' + solYes + ' of ' + TOTAL_SOL + ')</div><ul class="sol-list">' + yours + '</ul></div>' +
-    '<div class="compare-col full"><div class="compare-head">With Energy+ (' + TOTAL_SOL + ' of ' + TOTAL_SOL + ')</div><ul class="sol-list">' + full + '</ul></div>';
+    '<div class="compare-col yours"><div class="compare-head">Your offer today (' + solYes + ' of ' + TOTAL + ')</div><ul class="sol-list">' + yours + '</ul></div>' +
+    '<div class="compare-col full"><div class="compare-head">With Energy+ (' + TOTAL + ' of ' + TOTAL + ')</div><ul class="sol-list">' + full + '</ul></div>' +
+    cmpCaveat;
 
-  // closing stack
-  const CLOSING = [['sc-taxcred','Tax Credits (ITC, 30C)'],['sc-taxded','Tax Deductions (179D)'],['sc-grants','Specialty Grants'],['sc-financing','Client Project Financing']];
+  // closing stack (funding is the senior closing tool; incentives drop out when not assessed)
+  const CLOSING = [['sc-funding','Utility & State Program Funding'],['sc-taxcred','Tax Credits (ITC, 30C)'],['sc-taxded','Tax Deductions (179D)'],['sc-grants','Specialty Grants'],['sc-financing','Client Project Financing']]
+    .filter(([id]) => !NOT_ASSESSED.includes(id));
+  const totalC = CLOSING.length;
   const haveN = CLOSING.filter(([id]) => has(cardAnswers, id)).length;
-  const notes = [
-    'Right now you go into rooms without any of them.',
-    'One of these, and every deal you bring it to becomes easier to close.',
-    'Two of these, and your close rate improves noticeably.',
-    'Three of these, and you are playing a different game than most energy advisors.',
-    'All four, and no competitor in the room has the same closing power you do.'
-  ];
+  let cnote;
+  if (haveN === totalC) cnote = 'You hold every closing tool here. No competitor in the room matches that.';
+  else if (haveN === 0) cnote = 'Right now you walk into rooms without any of them.';
+  else cnote = haveN + ' of ' + totalC + '. Each one you add makes the next deal easier to close.';
   const items = CLOSING.map(([id, label]) => '<div class="cs-item ' + (has(cardAnswers, id) ? 'have' : 'gap') + '"><span class="cs-dot"></span>' + label + '</div>').join('');
   document.getElementById('r-closing').innerHTML =
-    '<div class="closing-head"><span class="closing-label">Closing stack</span><span class="closing-score">' + haveN + ' <span>/ 4</span></span></div>' +
-    '<p class="closing-note">These four tools do not decide which markets you can enter. They decide how many deals you close once you are in the room. ' + notes[haveN] + '</p>' +
+    '<div class="closing-head"><span class="closing-label">Closing stack</span><span class="closing-score">' + haveN + ' <span>/ ' + totalC + '</span></span></div>' +
+    '<p class="closing-note">These tools do not decide which markets you can enter. They decide how many deals you close once you are in the room. ' + cnote + '</p>' +
     '<div class="closing-items">' + items + '</div>';
 
   goTo('screen-results');
@@ -925,6 +960,8 @@ function resetAudit() {
   document.querySelectorAll('.subs').forEach(el => el.classList.remove('open'));
   document.querySelectorAll('.sub-why').forEach(el => { el.className = 'sub-why'; el.textContent = ''; });
   document.querySelectorAll('.badge').forEach(b => { b.className = 'badge'; b.textContent = ''; });
+  document.querySelectorAll('.tier').forEach(el => el.classList.remove('open'));
+  document.querySelectorAll('.chk-input').forEach(c => { c.checked = false; });
   document.querySelectorAll('.btn.next').forEach(b => b.classList.remove('ready'));
   Object.keys(SECTION_IDS).forEach(updateProgress);
   goTo('screen-intro');
