@@ -104,7 +104,7 @@
   .item-name .badge { margin-left: 0.4rem; }
   .item-desc { font-size: var(--t-sm); color: var(--muted); line-height: 1.5; }
   .item-actions { display: flex; gap: 0.4rem; padding: 0 1.15rem 0.9rem; margin-top: auto; }
-  .yn { flex: 1; min-height: 44px; font-family: var(--font-label); font-size: 0.88rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.5rem 0.4rem; border: 1px solid var(--border-sub); background: transparent; color: var(--muted); cursor: pointer; transition: border-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), background var(--dur-micro) var(--ease-out); }
+  .yn { flex: 1; min-height: 46px; font-family: var(--font-label); font-size: 1rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.5rem 0.4rem; border: 1px solid var(--border-sub); background: transparent; color: var(--muted); cursor: pointer; transition: border-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), background var(--dur-micro) var(--ease-out); }
   .yn:hover { border-color: var(--muted); color: var(--cream); }
   .yn.active { border-color: var(--amber); color: var(--navy); background: var(--amber); }
   .yn.skip.active { background: var(--muted); border-color: var(--muted); color: var(--navy); }
@@ -127,7 +127,7 @@
   .sub-why { font-size: 0.95rem; line-height: 1.45; margin-top: 0.35rem; display: none; font-style: italic; color: var(--amber-pale); }
   .sub-why.show { display: block; }
   .sub-toggle { display: flex; gap: 0.3rem; flex-shrink: 0; }
-  .mini { min-width: 44px; min-height: 44px; font-family: var(--font-label); font-size: 0.84rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3rem 0.7rem; border: 1px solid var(--border-sub); background: transparent; color: var(--muted); cursor: pointer; transition: border-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), background var(--dur-micro) var(--ease-out); }
+  .mini { min-width: 46px; min-height: 46px; font-family: var(--font-label); font-size: 0.92rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3rem 0.7rem; border: 1px solid var(--border-sub); background: transparent; color: var(--muted); cursor: pointer; transition: border-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), background var(--dur-micro) var(--ease-out); }
   .mini:hover { border-color: var(--muted); color: var(--cream); }
   .mini.active { border-color: var(--amber); color: var(--navy); background: var(--amber); }
 
@@ -146,7 +146,7 @@
   .scope-card { text-align: left; background: var(--navy-card); border: none; cursor: pointer; padding: 1.25rem 1.3rem; display: flex; flex-direction: column; gap: 0.25rem; transition: background var(--dur-micro) var(--ease-out); }
   .scope-card:hover { background: var(--navy-light); }
   .scope-card.active { background: var(--navy-light); box-shadow: inset 0 0 0 2px var(--amber); }
-  .scope-name { font-family: var(--font-display); font-weight: 500; font-size: 1.28rem; color: var(--white); line-height: 1.2; }
+  .scope-name { font-family: var(--font-display); font-weight: 500; font-size: 1.45rem; color: var(--white); line-height: 1.2; }
   .scope-card.active .scope-name { color: var(--amber-light); }
   .scope-desc { font-size: var(--t-sm); color: var(--muted); line-height: 1.5; }
 
@@ -154,7 +154,7 @@
   .follow.open { display: flex; }
   .follow-head { font-family: var(--font-display); font-weight: 500; font-size: 1.2rem; color: var(--white); line-height: 1.3; }
   .follow-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-  .opt-btn { min-height: 44px; padding: 0.5rem 1.1rem; font-family: var(--font-label); font-weight: 600; font-size: 0.84rem; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--border-sub); background: transparent; color: var(--muted); cursor: pointer; transition: border-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), background var(--dur-micro) var(--ease-out); }
+  .opt-btn { min-height: 46px; padding: 0.6rem 1.2rem; font-family: var(--font-label); font-weight: 600; font-size: 0.96rem; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--border-sub); background: transparent; color: var(--muted); cursor: pointer; transition: border-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), background var(--dur-micro) var(--ease-out); }
   .opt-btn:hover { border-color: var(--muted); color: var(--cream); }
   .opt-btn.active { border-color: var(--amber); background: var(--amber); color: var(--navy); }
   .opt-btn.sm { min-height: 36px; padding: 0.3rem 0.75rem; font-size: 0.72rem; }
@@ -162,10 +162,13 @@
   .region-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.2rem 1.5rem; }
 
   .state-grid { display: flex; flex-direction: column; gap: 1.1rem; }
-  .state-region-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 0.55rem; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border-sub); }
-  .state-region-head .rn { font-family: var(--font-label); font-weight: 600; font-size: 0.84rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber); }
+  .state-region-head { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.6rem; padding-bottom: 0.45rem; border-bottom: 1px solid var(--border-sub); }
+  .state-region-head .rn { font-family: var(--font-label); font-weight: 600; font-size: 0.95rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream); }
+  .select-all { min-height: 40px; padding: 0.4rem 1.1rem; font-family: var(--font-label); font-weight: 600; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--amber-light); background: rgba(var(--amber-rgb), 0.08); border: 1px solid var(--amber); cursor: pointer; transition: background var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out); }
+  .select-all:hover { background: rgba(var(--amber-rgb), 0.18); color: var(--white); }
+  .select-all.on { background: var(--amber); color: var(--navy); }
   .state-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-  .state-chip { min-height: 44px; padding: 0.45rem 0.85rem; font-family: var(--font-body); font-size: 0.95rem; border: 1px solid var(--border-sub); background: transparent; color: var(--cream); cursor: pointer; transition: border-color var(--dur-micro) var(--ease-out), background var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out); }
+  .state-chip { min-height: 46px; padding: 0.5rem 0.95rem; font-family: var(--font-body); font-size: 1.05rem; border: 1px solid var(--border-sub); background: transparent; color: var(--cream); cursor: pointer; transition: border-color var(--dur-micro) var(--ease-out), background var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out); }
   .state-chip:hover { border-color: var(--muted); }
   .state-chip.active { border-color: var(--amber); background: var(--amber); color: var(--navy); font-weight: 600; }
 
@@ -368,13 +371,9 @@
         <span class="scope-name">Nationwide</span>
         <span class="scope-desc">We can deliver across the country.</span>
       </button>
-      <button class="scope-card" type="button" data-scope="region" role="radio" aria-checked="false">
-        <span class="scope-name">By region</span>
-        <span class="scope-desc">We cover specific regions of the country.</span>
-      </button>
       <button class="scope-card" type="button" data-scope="states" role="radio" aria-checked="false">
         <span class="scope-name">Specific states</span>
-        <span class="scope-desc">We cover certain states, from one to a handful or a scattered set.</span>
+        <span class="scope-desc">We cover certain states. Tap a state to add it, or use Select all to grab a whole region at once.</span>
       </button>
     </div>
 
@@ -386,13 +385,8 @@
       </div>
     </div>
 
-    <div class="follow" id="follow-region">
-      <div class="follow-head">Which regions can you cover?</div>
-      <div class="region-options" id="region-options"></div>
-    </div>
-
     <div class="follow" id="follow-states">
-      <div class="follow-head">Select every state you can cover.</div>
+      <div class="follow-head">Select every state you can cover. Use Select all to grab a whole region.</div>
       <div class="state-grid" id="state-grid"></div>
     </div>
 
@@ -796,12 +790,9 @@ Object.entries(REGIONS).forEach(([r, list]) => list.forEach(s => { STATE_REGION[
 const coverage = { scope: null, akhi: null, regions: new Set(), states: new Set() };
 
 function renderCoverage() {
-  document.getElementById('region-options').innerHTML = Object.keys(REGIONS).map(r =>
-    '<label class="chk"><input type="checkbox" class="region-input" data-region="' + r + '"><span>' + r + '</span></label>'
-  ).join('');
   document.getElementById('state-grid').innerHTML = Object.entries(REGIONS).map(([r, list]) =>
     '<div class="state-region"><div class="state-region-head"><span class="rn">' + r + '</span>' +
-    '<button class="opt-btn sm select-all" type="button" data-region="' + r + '">Select all</button></div>' +
+    '<button class="select-all" type="button" data-region="' + r + '">Select all ' + list.length + '</button></div>' +
     '<div class="state-chips">' + list.map(s =>
       '<button class="state-chip" type="button" data-state="' + s + '" aria-pressed="false">' + s + '</button>'
     ).join('') + '</div></div>'
@@ -824,8 +815,10 @@ function isCoverageComplete() {
 
 function refreshSelectAll() {
   document.querySelectorAll('.select-all').forEach(btn => {
-    const allOn = REGIONS[btn.dataset.region].every(s => coverage.states.has(s));
-    btn.textContent = allOn ? 'Clear' : 'Select all';
+    const r = btn.dataset.region;
+    const allOn = REGIONS[r].every(s => coverage.states.has(s));
+    btn.textContent = allOn ? 'Clear all' : 'Select all ' + REGIONS[r].length;
+    btn.classList.toggle('on', allOn);
   });
 }
 
@@ -869,12 +862,6 @@ function wireCoverage() {
       document.querySelectorAll('#follow-nationwide .opt-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
       btn.classList.add('active'); btn.setAttribute('aria-pressed','true');
       coverage.akhi = btn.dataset.akhi;
-      updateCoverage();
-    });
-  });
-  document.querySelectorAll('.region-input').forEach(c => {
-    c.addEventListener('change', () => {
-      if (c.checked) coverage.regions.add(c.dataset.region); else coverage.regions.delete(c.dataset.region);
       updateCoverage();
     });
   });
