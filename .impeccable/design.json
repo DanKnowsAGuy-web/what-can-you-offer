@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-08T00:00:00Z",
+  "title": "Design System: Energy+ Offer Audit",
+  "extensions": {
+    "colorMeta": {
+      "amber": { "role": "primary", "displayName": "Champagne", "canonical": "#c2a368", "tonalRamp": ["#2a2316", "#4a3e26", "#6b5836", "#8c7547", "#ad9158", "#c2a368", "#d8bf8a", "#ead7ab"] },
+      "amber-light": { "role": "primary", "displayName": "Champagne Light", "canonical": "#d8bf8a" },
+      "amber-pale": { "role": "primary", "displayName": "Champagne Pale", "canonical": "#ead7ab" },
+      "navy": { "role": "neutral", "displayName": "Navy", "canonical": "#0a1622", "tonalRamp": ["#060f17", "#0a1622", "#0c1a28", "#0f1f2e", "#122438", "#16293b", "#1d3550", "#264466"] },
+      "navy-mid": { "role": "neutral", "displayName": "Navy Mid", "canonical": "#0f1f2e" },
+      "navy-light": { "role": "neutral", "displayName": "Navy Light", "canonical": "#16293b" },
+      "navy-card": { "role": "neutral", "displayName": "Navy Card", "canonical": "#0c1a28" },
+      "navy-hero": { "role": "neutral", "displayName": "Navy Hero", "canonical": "#122438" },
+      "navy-deep": { "role": "neutral", "displayName": "Navy Deep", "canonical": "#060f17" },
+      "white": { "role": "neutral", "displayName": "Headline White", "canonical": "#fbfbf8" },
+      "cream": { "role": "neutral", "displayName": "Body Cream", "canonical": "#e7e6e0" },
+      "mid": { "role": "neutral", "displayName": "Lead Mid", "canonical": "#afc1cf" },
+      "muted": { "role": "neutral", "displayName": "Muted", "canonical": "#8597a6" },
+      "green": { "role": "tertiary", "displayName": "Comparison Green", "canonical": "#57bf98" },
+      "red": { "role": "tertiary", "displayName": "Comparison Red", "canonical": "#d6796d" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero statement only. Spectral 300; the only place thin weight is allowed." },
+      "headline": { "displayName": "Headline", "purpose": "Section openers. Spectral 400." },
+      "title": { "displayName": "Title", "purpose": "Card and finding titles. Spectral 500." },
+      "body": { "displayName": "Body", "purpose": "Default running text. Barlow 400, 17px, measure 65-75ch." },
+      "label": { "displayName": "Label", "purpose": "Eyebrows, tags, numerals. Barlow Condensed 600 uppercase, champagne, <=4 words." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Ease-out-quint. The only curve in the system; no bounce or elastic." },
+      { "name": "micro", "value": "120ms", "purpose": "Micro-interactions (hover, press, focus): 100-150ms." },
+      { "name": "reveal", "value": "320ms", "purpose": "Reveals and transitions: 200-450ms." },
+      { "name": "stagger-step", "value": "55ms", "purpose": "Per-item list-reveal delay (--i * 55ms)." }
+    ],
+    "breakpoints": [
+      { "name": "narrow", "value": "880px" },
+      { "name": "wide", "value": "1200px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The close. Champagne fill, navy text. Carries the heat; used once per view.",
+      "html": "<button class=\"ds-btn-primary\">START THE AUDIT</button>",
+      "css": ".ds-btn-primary { background: #c2a368; color: #0a1622; font-family: 'Barlow Condensed', system-ui, sans-serif; font-weight: 600; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 16px 32px; border: none; border-radius: 2px; cursor: pointer; transition: background 120ms cubic-bezier(0.22,1,0.36,1), transform 120ms cubic-bezier(0.22,1,0.36,1); } .ds-btn-primary:hover { background: #d8bf8a; transform: translateY(-1px); } .ds-btn-primary:focus-visible { outline: 2px solid #d8bf8a; outline-offset: 3px; } .ds-btn-primary:active { transform: translateY(0); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Lower-priority action. Navy surface, cream text, champagne hairline. Keeps the primary singular.",
+      "html": "<button class=\"ds-btn-ghost\">SEE A SAMPLE FINDING</button>",
+      "css": ".ds-btn-ghost { background: #0a1622; color: #e7e6e0; font-family: 'Barlow Condensed', system-ui, sans-serif; font-weight: 600; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 16px 32px; border: 1px solid rgba(194,163,104,0.22); border-radius: 2px; cursor: pointer; transition: border-color 120ms cubic-bezier(0.22,1,0.36,1), color 120ms cubic-bezier(0.22,1,0.36,1); } .ds-btn-ghost:hover { border-color: #c2a368; color: #fbfbf8; } .ds-btn-ghost:focus-visible { outline: 2px solid #d8bf8a; outline-offset: 3px; }"
+    },
+    {
+      "name": "Tag",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Champagne fill, navy text. Market or solution label.",
+      "html": "<span class=\"ds-tag\">HEALTHCARE</span>",
+      "css": ".ds-tag { display: inline-block; background: #c2a368; color: #0a1622; font-family: 'Barlow Condensed', system-ui, sans-serif; font-weight: 600; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; border-radius: 2px; }"
+    },
+    {
+      "name": "Finding Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "A single gap finding. Navy-card surface, hairline border, lifts on hover via tonal step, no shadow.",
+      "html": "<article class=\"ds-card\"><span class=\"ds-card-num\">07</span><h3 class=\"ds-card-title\">Power Quality &mdash; full coverage</h3><p class=\"ds-card-body\">Without harmonic distortion management at 85&ndash;90% nonlinear load, you cannot credibly serve Data Centers.</p></article>",
+      "css": ".ds-card { background: #0c1a28; border: 1px solid rgba(255,255,255,0.06); border-radius: 0; padding: 32px; transition: background 200ms cubic-bezier(0.22,1,0.36,1), border-color 200ms cubic-bezier(0.22,1,0.36,1); } .ds-card:hover { background: #16293b; border-color: rgba(194,163,104,0.22); } .ds-card-num { font-family: 'Barlow Condensed', system-ui, sans-serif; font-weight: 600; font-size: 0.85rem; letter-spacing: 0.12em; color: #c2a368; } .ds-card-title { font-family: 'Spectral', Georgia, serif; font-weight: 500; font-size: 1.5rem; line-height: 1.32; color: #fbfbf8; margin: 8px 0 12px; } .ds-card-body { font-family: 'Barlow', system-ui, sans-serif; font-weight: 400; font-size: 1.0625rem; line-height: 1.65; color: #e7e6e0; margin: 0; max-width: 65ch; }"
+    },
+    {
+      "name": "Audit Option",
+      "kind": "input",
+      "refersTo": "card",
+      "description": "A selectable answer in the 16-question flow. Hairline-defined, champagne marks selection. No heavy fill (avoids the quiz look).",
+      "html": "<label class=\"ds-option\"><input type=\"radio\" name=\"q\" class=\"ds-option-input\"><span class=\"ds-option-text\">Yes, on most projects</span></label>",
+      "css": ".ds-option { display: flex; align-items: center; gap: 12px; background: #0c1a28; border: 1px solid rgba(255,255,255,0.06); border-radius: 2px; padding: 16px 20px; color: #e7e6e0; font-family: 'Barlow', system-ui, sans-serif; font-size: 1.0625rem; cursor: pointer; transition: border-color 120ms cubic-bezier(0.22,1,0.36,1); } .ds-option:hover { border-color: rgba(194,163,104,0.5); } .ds-option:focus-within { outline: 2px solid #d8bf8a; outline-offset: 2px; } .ds-option-input { accent-color: #c2a368; width: 18px; height: 18px; } .ds-option:has(.ds-option-input:checked) { border-color: #c2a368; color: #fbfbf8; }"
+    },
+    {
+      "name": "With / Without Row",
+      "kind": "custom",
+      "refersTo": "card",
+      "description": "Signature component. The only place green and red appear: sober, tabular, sting-becomes-relief made literal.",
+      "html": "<div class=\"ds-compare\"><div class=\"ds-compare-side ds-without\"><span class=\"ds-compare-label\">WITHOUT</span><p>Locked out of Healthcare &amp; Data Centers.</p></div><div class=\"ds-compare-side ds-with\"><span class=\"ds-compare-label\">WITH ENERGY+</span><p>Credible across both, plus 179D access.</p></div></div>",
+      "css": ".ds-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.06); } .ds-compare-side { background: #0c1a28; padding: 24px; } .ds-compare-side p { font-family: 'Barlow', system-ui, sans-serif; font-size: 1.0625rem; line-height: 1.65; color: #e7e6e0; margin: 8px 0 0; } .ds-compare-label { font-family: 'Barlow Condensed', system-ui, sans-serif; font-weight: 600; font-size: 0.72rem; letter-spacing: 0.12em; } .ds-without .ds-compare-label { color: #d6796d; } .ds-with .ds-compare-label { color: #57bf98; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Field Engineer's Audit Report",
+    "overview": "A genuine diagnostic that happens to close a sale. The surface reads like a serious deliverable an operator would respect: a deep-navy field of charged information, hairline-ruled and numbered like a real coverage report, warmed only by champagne accent and Spectral serif. Sharp and consultative first; warm enough in the findings that a gap lands as an invitation, never a verdict. Warmth comes from the champagne accent and the serif type, never from a tinted background. The heat is rationed so it always means something. The visuals serve a two-beat arc: a small sting, then immediate relief on the same screen.",
+    "keyCharacteristics": [
+      "Deep-navy surface, champagne as the single rationed accent",
+      "Spectral serif for display and headings; Barlow for body, Barlow Condensed for labels and numerals",
+      "Hairline rules and a numbered/index feel borrowed from real audit reports",
+      "WCAG AA contrast as a floor, not a target",
+      "Motion that confirms and reveals, never performs"
+    ],
+    "rules": [
+      { "name": "The Rationed Heat Rule", "body": "Champagne is the only accent and is used sparingly. If it is doing more than ~10% of a screen, cut it back.", "section": "colors" },
+      { "name": "The Filled-Accent-Goes-Dark Rule", "body": "Anything filled with champagne takes navy dark text (~6.5:1). White text on champagne is forbidden.", "section": "colors" },
+      { "name": "The No-Dimmer-Grey Rule", "body": "--muted (#8597a6) is the floor. Never introduce a greyer text color on navy.", "section": "colors" },
+      { "name": "The Comparison-Only Status Rule", "body": "Green and red appear only in the with/without comparison. Never decorative.", "section": "colors" },
+      { "name": "The 400-Floor Rule", "body": "Body weight is 400, minimum 15px. Weight 300 is reserved for large Spectral display only.", "section": "typography" },
+      { "name": "The Serif-Is-The-Voice Rule", "body": "Spectral carries every display and heading; Barlow never sets a headline; Spectral never sets running body.", "section": "typography" },
+      { "name": "The Tonal-Depth Rule", "body": "Layer with the navy ramp and hairlines, not shadows.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep the background deep navy and let warmth come from champagne accent + Spectral serif only.",
+      "Do ration champagne to <=~10% of any screen; it is the heat.",
+      "Do give every champagne-filled element dark navy text (~6.5:1).",
+      "Do set body at weight 400, 15px minimum; reserve weight 300 for large Spectral display.",
+      "Do keep text contrast within the ramp: body --cream (~14:1), leads --mid (~9:1), supporting --muted (~5.5:1).",
+      "Do use --ease-out (ease-out-quint) as the only curve; ~100-150ms micro, 200-450ms reveals.",
+      "Do ship one orchestrated hero entrance and stagger list reveals (--i * 55ms); gate reveals behind a .js class so content shows if JS fails.",
+      "Do include a prefers-reduced-motion block that zeroes durations and reveals all content.",
+      "Do restrict imagery to commercial/industrial infrastructure and schematics, duotone or grayscale-warm."
+    ],
+    "donts": [
+      "Don't use a cream, beige, sand, or tinted near-white background.",
+      "Don't use yellow-gold; champagne only. No gradient text. No glassmorphism by default.",
+      "Don't put a tracked-uppercase eyebrow above every section, or numbered markers as section scaffolding; numbers are only for a real sequence or catalog index.",
+      "Don't use border-left/border-right greater than 1px as a colored side-stripe accent.",
+      "Don't add quiz theatrics: no score-reveal animation, confetti, or playful illustration.",
+      "Don't add popups, countdowns, or gated walls; the CTA is earned by the findings.",
+      "Don't let it read as sterile corporate navy-and-gray.",
+      "Don't use Cormorant Garamond or emoji as icons.",
+      "Don't use sunsets, leaves, residential-roof installers, handshakes, or SaaS 3D blobs.",
+      "Don't introduce a grey dimmer than --muted, or white text on champagne.",
+      "Don't use green/red anywhere but the with/without comparison."
+    ]
+  }
+}

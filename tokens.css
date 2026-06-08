@@ -1,0 +1,77 @@
+/* Energy+ Offer Audit — design tokens
+   Source of truth for the visual system. See DESIGN.md for the rules. */
+
+:root {
+  /* ── surfaces (deep navy ramp) ── */
+  --navy:        #0a1622;   /* page background */
+  --navy-mid:    #0f1f2e;   /* alternating section bg */
+  --navy-light:  #16293b;   /* card hover / lift */
+  --navy-card:   #0c1a28;   /* card surface */
+  --navy-hero:   #122438;   /* hero gradient mid-stop */
+  --navy-deep:   #060f17;   /* footer / deepest */
+  --navy-rgb:    10, 22, 34;
+
+  /* ── accent (champagne, NOT yellow-gold) ── */
+  --amber:       #c2a368;   /* primary accent: buttons, rules, numerals, labels */
+  --amber-light: #d8bf8a;   /* links/text on dark, focus ring, hover */
+  --amber-pale:  #ead7ab;   /* italic pull-quotes */
+  --amber-rgb:   194, 163, 104;
+
+  /* ── text ── */
+  --white:  #fbfbf8;   /* headlines */
+  --cream:  #e7e6e0;   /* body text (~14:1 on navy) */
+  --mid:    #afc1cf;   /* leads / brighter secondary (~9:1) */
+  --muted:  #8597a6;   /* supporting / captions (~5.5:1, floor) */
+
+  /* ── lines & status ── */
+  --border:     rgba(var(--amber-rgb), 0.22);  /* champagne hairline */
+  --border-sub: rgba(255, 255, 255, 0.06);     /* neutral hairline / grid gaps */
+  --green:      #57bf98;   /* "with" / positive — comparison only */
+  --red:        #d6796d;   /* "without" / negative — comparison only */
+
+  /* ── spacing & rhythm ── */
+  --gutter:        clamp(1.25rem, 0.7rem + 2.4vw, 3rem);
+  --maxw:          1200px;
+  --maxw-narrow:   880px;
+  --section:       clamp(4.75rem, 3rem + 6.5vw, 8.5rem);   /* normal beat */
+  --section-tight: clamp(3.5rem, 2.5rem + 3.5vw, 5.75rem); /* compact sections */
+  --section-loose: clamp(6rem, 3.5rem + 9vw, 11rem);        /* CTA climax */
+  --s-1: .25rem; --s-2: .5rem; --s-3: .75rem; --s-4: 1rem;
+  --s-5: 1.5rem; --s-6: 2rem; --s-7: 3rem; --s-8: 4rem;
+
+  /* ── type families ── */
+  --font-display: "Spectral", Georgia, serif;
+  --font-body:    "Barlow", system-ui, sans-serif;
+  --font-label:   "Barlow Condensed", system-ui, sans-serif;
+
+  /* ── type scale (fluid display, fixed body) ── */
+  --t-display: clamp(2.8rem, 1.5rem + 5.2vw, 5.25rem);
+  --t-h1:      clamp(2rem, 1.45rem + 2.5vw, 3.4rem);
+  --t-h2:      clamp(1.55rem, 1.15rem + 1.9vw, 2.6rem);
+  --t-h3:      clamp(1.25rem, 1.05rem + 0.95vw, 1.65rem);
+  --t-lead:    1.2rem;     /* ~19px lead */
+  --t-body:    1.0625rem;  /* 17px body */
+  --t-sm:      0.95rem;    /* 15px secondary — never go below */
+  --t-label:   0.72rem;    /* uppercase tracked labels only */
+  --lh-tight: 1.12; --lh-snug: 1.32; --lh-body: 1.65;
+
+  /* ── motion ── */
+  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1); /* ease-out-quint, the only curve */
+  --dur-micro:   120ms;   /* 100–150ms micro-interactions */
+  --dur-reveal:  320ms;   /* 200–450ms reveals/transitions */
+  --stagger:     55ms;    /* per-item list-reveal delay (--i * 55ms) */
+
+  /* ── z-index scale ── */
+  --z-nav: 100; --z-grain: 120;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

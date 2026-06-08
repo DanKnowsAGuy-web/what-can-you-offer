@@ -1,0 +1,4 @@
+# Local harness + internal working files (not part of the site)
+.claude/
+memory/
+.impeccable/live/
