@@ -12,6 +12,7 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
+  :root { --header-h: 72px; --chrome-h: 119px; } /* measured + overwritten by JS */
   body {
     font-family: var(--font-body); background: var(--navy); color: var(--cream);
     font-size: var(--t-body); line-height: var(--lh-body); min-height: 100vh;
@@ -45,12 +46,12 @@
 
   /* PROGRESS RAIL */
   .rail {
-    position: fixed; top: 53px; inset-inline: 0; z-index: 90;
+    position: fixed; top: var(--header-h); inset-inline: 0; z-index: 90;
     background: rgba(var(--navy-rgb), 0.92); backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-sub); padding: 0.55rem var(--gutter);
     display: flex; align-items: center; justify-content: center;
   }
-  .rail[hidden] { display: none; }
+  .rail.is-hidden { visibility: hidden; pointer-events: none; }
   .rail-step { display: flex; align-items: center; gap: 0.55rem; font-family: var(--font-label); font-size: var(--t-label); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); padding: 0.15rem 0.7rem; transition: color var(--dur-reveal) var(--ease-out); white-space: nowrap; }
   .rail-step.active { color: var(--amber-light); }
   .rail-step.done { color: var(--cream); }
@@ -59,7 +60,7 @@
   .rail-sep { color: var(--border-sub); padding: 0 0.15rem; user-select: none; }
 
   /* STICKY SECTION HEADER */
-  .sec-bar { position: sticky; top: 92px; z-index: 80; background: rgba(var(--navy-rgb), 0.96); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 0.7rem var(--gutter); display: flex; align-items: center; gap: 1.1rem; }
+  .sec-bar { position: sticky; top: var(--chrome-h); z-index: 80; background: rgba(var(--navy-rgb), 0.96); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 0.7rem var(--gutter); display: flex; align-items: center; gap: 1.1rem; }
   .sec-bar .label { color: var(--navy); background: var(--amber); padding: 0.22rem 0.6rem; flex-shrink: 0; }
   .sec-bar-title { font-family: var(--font-label); font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--white); flex: 1; }
   .sec-track { flex: 1; max-width: 160px; height: 2px; background: var(--border-sub); }
@@ -70,6 +71,9 @@
   /* SCREENS */
   .screen { display: none; }
   .screen.active { display: block; }
+  /* clear the fixed header + rail so the sticky bar and content are never clipped */
+  #screen-s1, #screen-s2 { padding-top: var(--chrome-h); }
+  #screen-results { padding-top: var(--chrome-h); }
 
   /* INTRO */
   .intro { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 9rem 0 5rem; background: radial-gradient(ellipse 70% 55% at 50% 38%, var(--navy-hero) 0%, transparent 70%), var(--navy); }
@@ -283,7 +287,7 @@
   <span class="header-tag">Partner Offer Audit</span>
 </header>
 
-<nav class="rail" id="rail" hidden aria-label="Audit progress">
+<nav class="rail is-hidden" id="rail" aria-label="Audit progress">
   <div class="rail-step" id="rs1" data-step="1"><span class="rail-num" id="rn1">1</span><span>Financial Services</span></div>
   <span class="rail-sep">›</span>
   <div class="rail-step" id="rs2" data-step="2"><span class="rail-num" id="rn2">2</span><span>Technology Stack</span></div>
@@ -687,12 +691,22 @@ function runReveals(scope) {
     requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('in')));
   });
 }
+function setChrome() {
+  const header = document.querySelector('.global-header');
+  const rail = document.getElementById('rail');
+  const hh = header.offsetHeight;
+  const rh = rail.offsetHeight; // visibility-hidden keeps the box measurable
+  const root = document.documentElement.style;
+  root.setProperty('--header-h', hh + 'px');
+  root.setProperty('--chrome-h', (hh + rh) + 'px');
+}
 function goTo(screenId) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const target = document.getElementById(screenId);
   target.classList.add('active');
+  document.getElementById('rail').classList.toggle('is-hidden', screenId === 'screen-intro');
+  setChrome();
   window.scrollTo({ top: 0, behavior: 'auto' });
-  document.getElementById('rail').hidden = (screenId === 'screen-intro');
   updateRail(screenId);
   runReveals(target);
 }
@@ -935,6 +949,9 @@ document.querySelectorAll('.sub-toggle .mini').forEach(b => {
 document.querySelectorAll('.yn, .mini').forEach(b => b.setAttribute('aria-pressed', 'false'));
 Object.keys(SECTION_IDS).forEach(updateProgress);
 runReveals(document.getElementById('screen-intro'));
+setChrome();
+window.addEventListener('resize', setChrome);
+window.addEventListener('load', setChrome);
 </script>
 </body>
 </html>
