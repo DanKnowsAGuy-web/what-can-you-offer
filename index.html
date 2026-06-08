@@ -614,7 +614,7 @@
     <div class="resolution">
       <div class="res-inner">
         <h2>The gap closes with<br><em>one conversation.</em></h2>
-        <p>Book a call with Daniel, or skip all of it and send a text. Either way you are talking to the founder, not a sales rep, not a scheduler, not a funnel.</p>
+        <p>Book a call with Dan, or skip all of it and send a text. Either way you are talking to the founder, not a sales rep, not a scheduler, not a funnel.</p>
         <div class="assurance">We only earn when you close. Zero cost to start.</div>
         <div class="dual-cta">
           <div class="cta-col formal">
@@ -635,7 +635,7 @@
             <span class="sms-number">(864) 777-0688</span>
           </div>
         </div>
-        <p style="margin-top:1.5rem;font-size:0.96rem;color:var(--muted);">Or email <a href="mailto:Dan@DanKnowsAGuy.org">Dan@DanKnowsAGuy.org</a></p>
+        <p style="margin-top:1.5rem;font-size:0.96rem;color:var(--muted);">Or email <a href="mailto:dan@yourenergyplus.com">dan@yourenergyplus.com</a></p>
       </div>
     </div>
 
@@ -1133,7 +1133,7 @@ function showResults() {
   } else { closestEl.classList.remove('show'); closestEl.innerHTML = ''; }
 
   // ── Markets: compact icon + name + rating cards (no lists) ──
-  const facNote = fundingYes ? '<p class="market-note">You answered Yes to full program funding, so the three incentives were not assessed. Markets that lean on them are rated without that funding factored in; confirm with Daniel.</p>' : '';
+  const facNote = fundingYes ? '<p class="market-note">You answered Yes to full program funding, so the three incentives were not assessed. Markets that lean on them are rated without that funding factored in; confirm with Dan.</p>' : '';
   const marketCards = facResults.map((f, i) => {
     const label = f.status === 'qualified' ? 'Qualified' : f.status === 'partial' ? 'Partial' : 'Not yet';
     return '<article class="market-card ' + f.status + ' reveal" style="--i:' + i + '"><span class="m-ico">' + (FAC_ICONS[f.name] || '') + '</span><span class="m-name">' + f.name + '</span><span class="rating ' + f.status + '">' + label + '</span></article>';
