@@ -174,6 +174,33 @@
 
   .coverage-line { font-family: var(--font-label); font-weight: 600; font-size: 0.9rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--amber-light); margin-top: 0.75rem; }
 
+  /* RESULTS: compact market cards (icon + name + rating) */
+  .market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1px; background: var(--border-sub); border: 1px solid var(--border-sub); }
+  .market-card { background: var(--navy-card); padding: 1.1rem 1.2rem; display: flex; align-items: center; gap: 1rem; }
+  .market-card.qualified { background: rgba(87,191,152,0.05); }
+  .m-ico { flex-shrink: 0; color: var(--amber); display: flex; }
+  .m-ico svg { width: 34px; height: 34px; }
+  .m-name { flex: 1; font-family: var(--font-display); font-weight: 500; font-size: 1.18rem; color: var(--white); line-height: 1.2; }
+  .rating { flex-shrink: 0; font-family: var(--font-label); font-weight: 700; font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.32rem 0.7rem; border: 1px solid; white-space: nowrap; }
+  .rating.qualified { color: var(--green); border-color: rgba(87,191,152,0.45); }
+  .rating.partial { color: var(--amber-light); border-color: var(--border); }
+  .rating.not-yet { color: var(--red); border-color: rgba(214,121,109,0.4); }
+  .market-note { font-size: var(--t-sm); color: var(--muted); font-style: italic; line-height: 1.6; margin-bottom: 1rem; max-width: 64ch; }
+
+  /* RESULTS: unified "Your stack" box */
+  .stack { border: 1px solid var(--border); background: var(--navy-card); padding: 1.75rem 2rem; }
+  .stack-group + .stack-group { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-sub); }
+  .stack-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+  .stack-label { font-family: var(--font-label); font-weight: 700; font-size: 0.84rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--amber); }
+  .stack-score { font-family: var(--font-display); font-weight: 300; font-size: 1.5rem; color: var(--white); }
+  .stack-score span { font-size: 0.9rem; color: var(--muted); }
+  .stack-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem 1.5rem; }
+  .stack-row { display: flex; align-items: flex-start; gap: 0.65rem; font-size: 1.02rem; line-height: 1.4; }
+  .stack-ico { flex-shrink: 0; font-weight: 700; width: 1rem; text-align: center; }
+  .stack-row.have { color: var(--cream); } .stack-row.have .stack-ico { color: var(--green); }
+  .stack-row.partial { color: var(--amber-pale); } .stack-row.partial .stack-ico { color: var(--amber-light); }
+  .stack-row.gap { color: var(--muted); } .stack-row.gap .stack-ico { color: var(--red); }
+
   /* SECTION FOOTER */
   .section-foot { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding: 2rem 0 5rem; }
   .foot-left { display: flex; flex-direction: column; gap: 0.5rem; }
@@ -317,6 +344,7 @@
   @media (max-width: 560px) {
     .grid-3, .grid-2 { grid-template-columns: 1fr; }
     .region-options { grid-template-columns: 1fr; }
+    .stack-list { grid-template-columns: 1fr; }
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -578,16 +606,9 @@
       <div class="fac-grid" id="r-fac-grid"></div>
     </div>
 
-    <div class="block" id="r-depth"></div>
-
     <div class="block">
-      <div class="block-title">Your offer vs the full stack</div>
-      <div class="compare" id="r-compare"></div>
-    </div>
-
-    <div class="block">
-      <div class="block-title">Your closing stack</div>
-      <div class="closing" id="r-closing"></div>
+      <div class="block-title">Your stack</div>
+      <div class="stack" id="r-stack"></div>
     </div>
 
     <div class="resolution">
@@ -765,6 +786,19 @@ const FAC_RULES = [
       return { status:'not-yet', messages: CORE_MISSING };
     } },
 ];
+
+// ─────────────────────────────────────────────
+// FACILITY ICONS (schematic line art, stroke = currentColor)
+// ─────────────────────────────────────────────
+const SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">';
+const FAC_ICONS = {
+  'Commercial & Mixed-Use': SVG + '<path d="M3 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16M13 9h6a1 1 0 0 1 1 1v11M6 8h2M6 12h2M6 16h2M16 13h1M16 17h1M2 21h20"/></svg>',
+  'Food & Cold Chain': SVG + '<circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2 3h3l2.4 12.4a1 1 0 0 0 1 .8h8.6a1 1 0 0 0 1-.8L21 7H6"/></svg>',
+  'Industrial, Warehouse & Mfg': SVG + '<path d="M3 21V11l6 4V11l6 4V6l6 3v12H3z"/><path d="M2 21h20"/></svg>',
+  'Institutional & Public': SVG + '<path d="M3 10l9-5 9 5M4 10h16M6 10v8M10 10v8M14 10v8M18 10v8M3 21h18"/></svg>',
+  'Healthcare & Life Sciences': SVG + '<path d="M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z"/></svg>',
+  'Data Centers': SVG + '<rect x="3" y="4" width="18" height="7" rx="1"/><rect x="3" y="13" width="18" height="7" rx="1"/><path d="M7 7.5h.01M7 16.5h.01"/></svg>',
+};
 
 // ─────────────────────────────────────────────
 // STATE
@@ -1098,60 +1132,34 @@ function showResults() {
     closestEl.classList.add('show');
   } else { closestEl.classList.remove('show'); closestEl.innerHTML = ''; }
 
-  // facility grid (+ caveat when full funding hid the incentives)
-  const facCaveat = fundingYes ? '<p class="block-note" style="grid-column:1/-1;margin:0;padding:1rem 1.3rem;font-style:italic;background:var(--navy-card)">You answered Yes to full program funding, so Tax Credits, Tax Deductions, and Specialty Grants were not assessed. Any incentive requirements shown below may be covered by that funding; confirm with Daniel.</p>' : '';
-  document.getElementById('r-fac-grid').innerHTML = facCaveat + facResults.map((f, i) => {
+  // ── Markets: compact icon + name + rating cards (no lists) ──
+  const facNote = fundingYes ? '<p class="market-note">You answered Yes to full program funding, so the three incentives were not assessed. Markets that lean on them are rated without that funding factored in; confirm with Daniel.</p>' : '';
+  const marketCards = facResults.map((f, i) => {
     const label = f.status === 'qualified' ? 'Qualified' : f.status === 'partial' ? 'Partial' : 'Not yet';
-    const msgs = f.messages.map(m => '<li class="fac-msg">' + m + '</li>').join('');
-    return '<article class="fac-card ' + f.status + ' reveal" style="--i:' + i + '"><div class="fac-top"><span class="fac-name">' + f.name + '</span><span class="fac-status">' + label + '</span></div><ul class="fac-msgs">' + msgs + '</ul></article>';
+    return '<article class="market-card ' + f.status + ' reveal" style="--i:' + i + '"><span class="m-ico">' + (FAC_ICONS[f.name] || '') + '</span><span class="m-name">' + f.name + '</span><span class="rating ' + f.status + '">' + label + '</span></article>';
   }).join('');
+  const facWrap = document.getElementById('r-fac-grid');
+  facWrap.className = '';
+  facWrap.innerHTML = facNote + '<div class="market-grid">' + marketCards + '</div>';
 
-  // depth
-  const withSubs = sol.filter(i => i.subs.length > 0 && i.status !== 'gap');
-  const depthEl = document.getElementById('r-depth');
-  if (withSubs.length) {
-    const cards = withSubs.map(item => {
-      const answers = subAnswers[item.subKey] || {};
-      const yes = Object.values(answers).filter(v => v === 'yes').length, total = item.subs.length;
-      const barPct = Math.round((yes/total)*100);
-      const barColor = barPct === 100 ? 'var(--green)' : barPct >= 50 ? 'var(--amber-light)' : 'var(--red)';
-      const subs = item.subs.map((s, i) => {
-        const a = answers[i], ico = a === 'yes' ? '✓' : a === 'no' ? '✕' : '–', cls = a === 'yes' ? 'y' : a === 'no' ? 'n' : '';
-        return '<div class="depth-sub"><span class="depth-ico ' + cls + '">' + ico + '</span><span>' + s + '</span></div>';
-      }).join('');
-      return '<div class="depth-card"><div class="depth-name">' + item.label + '<span class="depth-score">' + yes + ' / ' + total + ' depth</span></div><div class="depth-track"><div class="depth-bar" style="width:' + barPct + '%;background:' + barColor + '"></div></div><div class="depth-subs">' + subs + '</div></div>';
-    }).join('');
-    depthEl.innerHTML = '<div class="block-title">Capability depth</div><p class="block-note">Coverage is not the same as depth. Where you said Yes, here is how complete that Yes actually is.</p><div class="depth-grid">' + cards + '</div>';
-  } else { depthEl.innerHTML = ''; }
-
-  // comparison
-  let yours = '', full = '';
-  sol.forEach(s => {
+  // ── Your stack: capability (technology) + closing (financial), one box ──
+  const tech = sol.filter(s => SECTION_IDS.s2.includes(s.id));
+  const haveCap = tech.filter(s => s.status !== 'gap').length;
+  const capRows = tech.map(s => {
     const ico = s.status === 'have' ? '✓' : s.status === 'partial' ? '◐' : '✕';
-    const tag = s.status === 'partial' ? ' <em style="font-style:normal;font-size:0.88rem;color:var(--amber)">(partial)</em>' : '';
-    yours += '<li class="sol-row ' + s.status + '"><span class="sol-ico">' + ico + '</span><span class="sol-name">' + s.label + tag + '</span></li>';
-    full += '<li class="sol-row ' + (s.status !== 'gap' ? 'have' : 'added') + '"><span class="sol-ico">' + (s.status !== 'gap' ? '✓' : '+') + '</span><span class="sol-name">' + s.label + '</span></li>';
-  });
-  const cmpCaveat = fundingYes ? '<p class="block-note" style="grid-column:1/-1;margin:0;padding:1rem 2.25rem;font-style:italic;background:var(--navy-card)">Tax Credits, Tax Deductions, and Specialty Grants are not listed here. With full program funding, they were not assessed.</p>' : '';
-  document.getElementById('r-compare').innerHTML =
-    '<div class="compare-col yours"><div class="compare-head">Your offer today (' + solYes + ' of ' + TOTAL + ')</div><ul class="sol-list">' + yours + '</ul></div>' +
-    '<div class="compare-col full"><div class="compare-head">With Energy+ (' + TOTAL + ' of ' + TOTAL + ')</div><ul class="sol-list">' + full + '</ul></div>' +
-    cmpCaveat;
-
-  // closing stack (funding is the senior closing tool; incentives drop out when not assessed)
-  const CLOSING = [['sc-funding','Utility & State Program Funding'],['sc-taxcred','Tax Credits (ITC, 30C)'],['sc-taxded','Tax Deductions (179D)'],['sc-grants','Specialty Grants'],['sc-financing','Client Project Financing']]
+    const tag = s.status === 'partial' ? ' (partial)' : '';
+    return '<div class="stack-row ' + s.status + '"><span class="stack-ico">' + ico + '</span><span>' + s.label + tag + '</span></div>';
+  }).join('');
+  const CLOSING = [['sc-funding','Utility & State Program Funding'],['sc-utility','Utility Rate Negotiation'],['sc-taxcred','Tax Credits (ITC, 30C)'],['sc-taxded','Tax Deductions (179D)'],['sc-grants','Specialty Grants'],['sc-financing','Client Project Financing']]
     .filter(([id]) => !NOT_ASSESSED.includes(id));
-  const totalC = CLOSING.length;
-  const haveN = CLOSING.filter(([id]) => has(cardAnswers, id)).length;
-  let cnote;
-  if (haveN === totalC) cnote = 'You hold every closing tool here. No competitor in the room matches that.';
-  else if (haveN === 0) cnote = 'Right now you walk into rooms without any of them.';
-  else cnote = haveN + ' of ' + totalC + '. Each one you add makes the next deal easier to close.';
-  const items = CLOSING.map(([id, label]) => '<div class="cs-item ' + (has(cardAnswers, id) ? 'have' : 'gap') + '"><span class="cs-dot"></span>' + label + '</div>').join('');
-  document.getElementById('r-closing').innerHTML =
-    '<div class="closing-head"><span class="closing-label">Closing stack</span><span class="closing-score">' + haveN + ' <span>/ ' + totalC + '</span></span></div>' +
-    '<p class="closing-note">These tools do not decide which markets you can enter. They decide how many deals you close once you are in the room. ' + cnote + '</p>' +
-    '<div class="closing-items">' + items + '</div>';
+  const haveClose = CLOSING.filter(([id]) => has(cardAnswers, id)).length;
+  const closeRows = CLOSING.map(([id, label]) => {
+    const hv = has(cardAnswers, id);
+    return '<div class="stack-row ' + (hv ? 'have' : 'gap') + '"><span class="stack-ico">' + (hv ? '✓' : '✕') + '</span><span>' + label + '</span></div>';
+  }).join('');
+  document.getElementById('r-stack').innerHTML =
+    '<div class="stack-group"><div class="stack-head"><span class="stack-label">Capability stack</span><span class="stack-score">' + haveCap + ' <span>/ ' + tech.length + '</span></span></div><div class="stack-list">' + capRows + '</div></div>' +
+    '<div class="stack-group"><div class="stack-head"><span class="stack-label">Closing stack</span><span class="stack-score">' + haveClose + ' <span>/ ' + CLOSING.length + '</span></span></div><div class="stack-list">' + closeRows + '</div></div>';
 
   goTo('screen-results');
 }
