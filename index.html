@@ -792,10 +792,10 @@ const subAnswers = {};
 // COVERAGE (Section 1: single-select scope + tailored follow-up)
 // ─────────────────────────────────────────────
 const REGIONS = {
-  'Northeast': ['Maine','New Hampshire','Vermont','Massachusetts','Rhode Island','Connecticut','New York','New Jersey','Pennsylvania'],
-  'Midwest': ['Ohio','Michigan','Indiana','Illinois','Wisconsin','Minnesota','Iowa','Missouri','North Dakota','South Dakota','Nebraska','Kansas'],
-  'South': ['Delaware','Maryland','Washington DC','Virginia','West Virginia','North Carolina','South Carolina','Georgia','Florida','Kentucky','Tennessee','Alabama','Mississippi','Texas','Oklahoma','Arkansas','Louisiana'],
-  'West': ['Montana','Idaho','Wyoming','Colorado','Utah','Nevada','Arizona','New Mexico','Washington','Oregon','California','Alaska','Hawaii'],
+  'Northeast': ['Connecticut','Maine','Massachusetts','New Hampshire','New Jersey','New York','Pennsylvania','Rhode Island','Vermont'],
+  'Midwest': ['Illinois','Indiana','Iowa','Kansas','Michigan','Minnesota','Missouri','Nebraska','North Dakota','Ohio','South Dakota','Wisconsin'],
+  'South': ['Alabama','Arkansas','Delaware','Florida','Georgia','Kentucky','Louisiana','Maryland','Mississippi','North Carolina','Oklahoma','South Carolina','Tennessee','Texas','Virginia','Washington DC','West Virginia'],
+  'West': ['Alaska','Arizona','California','Colorado','Hawaii','Idaho','Montana','Nevada','New Mexico','Oregon','Utah','Washington','Wyoming'],
 };
 const STATE_REGION = {};
 Object.entries(REGIONS).forEach(([r, list]) => list.forEach(s => { STATE_REGION[s] = r; }));
