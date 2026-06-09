@@ -33,6 +33,7 @@
   --gutter:        clamp(1.25rem, 0.7rem + 2.4vw, 3rem);
   --maxw:          1200px;
   --maxw-narrow:   880px;
+  --maxw-q:        800px;   /* question sections: cards + nav kept in a tight column */
   --section:       clamp(4.75rem, 3rem + 6.5vw, 8.5rem);   /* normal beat */
   --section-tight: clamp(3.5rem, 2.5rem + 3.5vw, 5.75rem); /* compact sections */
   --section-loose: clamp(6rem, 3.5rem + 9vw, 11rem);        /* CTA climax */

@@ -12,7 +12,7 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  :root { --header-h: 72px; --chrome-h: 119px; } /* measured + overwritten by JS */
+  :root { --header-h: 72px; --chrome-h: 119px; /* measured + overwritten by JS */ --maxw-q: 800px; }
   body {
     font-family: var(--font-body); background: var(--navy); color: var(--cream);
     font-size: var(--t-body); line-height: var(--lh-body); min-height: 100vh;
@@ -28,6 +28,7 @@
 
   .wrap { max-width: var(--maxw); margin: 0 auto; padding-inline: var(--gutter); }
   .wrap-narrow { max-width: var(--maxw-narrow); margin: 0 auto; padding-inline: var(--gutter); }
+  .wrap-q { max-width: var(--maxw-q); margin: 0 auto; padding-inline: var(--gutter); }
 
   .idx { font-family: var(--font-label); font-weight: 600; font-size: var(--t-label); letter-spacing: 0.12em; color: var(--amber); font-variant-numeric: tabular-nums; }
   .label { font-family: var(--font-label); font-weight: 600; font-size: var(--t-label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); }
@@ -61,7 +62,7 @@
   .rail-sep { color: var(--border-sub); padding: 0 0.15rem; user-select: none; }
 
   /* STICKY SECTION HEADER */
-  .sec-bar { position: sticky; top: var(--chrome-h); z-index: 80; background: rgba(var(--navy-rgb), 0.96); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 0.7rem var(--gutter); display: flex; align-items: center; gap: 1.1rem; }
+  .sec-bar { position: sticky; top: var(--chrome-h); z-index: 80; background: rgba(var(--navy-rgb), 0.96); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding-block: 0.7rem; padding-inline: max(var(--gutter), calc((100% - var(--maxw-q)) / 2)); display: flex; align-items: center; gap: 1.1rem; }
   .sec-bar .label { color: var(--navy); background: var(--amber); padding: 0.22rem 0.6rem; flex-shrink: 0; }
   .sec-bar-title { font-family: var(--font-label); font-size: 0.96rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--white); flex: 1; }
   .sec-track { flex: 1; max-width: 160px; height: 2px; background: var(--border-sub); }
@@ -143,6 +144,12 @@
   .tier-note { font-size: 0.95rem; font-style: italic; color: var(--muted); line-height: 1.45; }
 
   /* COVERAGE (Section 1: single-select scope + tailored follow-up) */
+  /* coverage footprint: single-select list */
+  .cov-list { display: flex; flex-direction: column; gap: 1px; background: var(--border-sub); border: 1px solid var(--border-sub); }
+  .cov-option { text-align: left; background: var(--navy-card); border: none; cursor: pointer; padding: 1.1rem 1.3rem; font-family: var(--font-display); font-weight: 500; font-size: 1.25rem; color: var(--cream); line-height: 1.2; transition: background var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out); }
+  .cov-option:hover { background: var(--navy-light); color: var(--white); }
+  .cov-option.active { background: var(--navy-light); color: var(--amber-light); box-shadow: inset 0 0 0 2px var(--amber); }
+
   .scope-cards { display: flex; flex-direction: column; gap: 1px; background: var(--border-sub); border: 1px solid var(--border-sub); margin-bottom: 1.5rem; }
   .scope-card { text-align: left; background: var(--navy-card); border: none; cursor: pointer; padding: 1.25rem 1.3rem; display: flex; flex-direction: column; gap: 0.25rem; transition: background var(--dur-micro) var(--ease-out); }
   .scope-card:hover { background: var(--navy-light); }
@@ -395,38 +402,24 @@
     <div class="sec-track"><div class="sec-fill" id="fill-cov"></div></div>
     <span class="sec-count" id="count-cov">Choose your coverage</span>
   </div>
-  <div class="wrap section-body">
-    <p class="section-intro">First, where can you actually deliver? This sets the map for everything that follows. Pick the option that fits, then tell us the specifics.</p>
+  <div class="wrap-q section-body">
+    <p class="section-intro">First, where can you actually deliver? Pick the footprint that fits.</p>
 
-    <div class="scope-cards" role="radiogroup" aria-label="Coverage scope">
-      <button class="scope-card" type="button" data-scope="nationwide" role="radio" aria-checked="false">
-        <span class="scope-name">Nationwide</span>
-        <span class="scope-desc">We can deliver across the country.</span>
-      </button>
-      <button class="scope-card" type="button" data-scope="states" role="radio" aria-checked="false">
-        <span class="scope-name">Specific states</span>
-        <span class="scope-desc">We cover certain states. Tap a state to add it, or use Select all to grab a whole region at once.</span>
-      </button>
+    <div class="cov-list" role="radiogroup" aria-label="Coverage footprint">
+      <button class="cov-option" type="button" data-extent="A single state" role="radio" aria-checked="false">A single state</button>
+      <button class="cov-option" type="button" data-extent="A few states (2 to 5)" role="radio" aria-checked="false">A few states (2 to 5)</button>
+      <button class="cov-option" type="button" data-extent="the Northeast" role="radio" aria-checked="false">The Northeast</button>
+      <button class="cov-option" type="button" data-extent="the Midwest" role="radio" aria-checked="false">The Midwest</button>
+      <button class="cov-option" type="button" data-extent="the South" role="radio" aria-checked="false">The South</button>
+      <button class="cov-option" type="button" data-extent="the West" role="radio" aria-checked="false">The West</button>
+      <button class="cov-option" type="button" data-extent="multiple regions" role="radio" aria-checked="false">Multiple regions</button>
+      <button class="cov-option" type="button" data-extent="nationwide, all 50 states" role="radio" aria-checked="false">Nationwide (all 50 states)</button>
     </div>
-
-    <div class="follow" id="follow-nationwide">
-      <div class="follow-head">Including Alaska and Hawaii?</div>
-      <div class="follow-actions">
-        <button class="opt-btn" type="button" data-akhi="yes" aria-pressed="false">Yes, all 50</button>
-        <button class="opt-btn" type="button" data-akhi="no" aria-pressed="false">No, lower 48</button>
-      </div>
-    </div>
-
-    <div class="follow" id="follow-states">
-      <div class="follow-head">Select every state you can cover. Use Select all to grab a whole region.</div>
-      <div class="state-grid" id="state-grid"></div>
-    </div>
-
   </div>
-  <div class="section-foot">
+  <div class="section-foot wrap-q">
     <div class="foot-left">
       <button class="foot-back" type="button" data-goto="screen-intro">← Back to start</button>
-      <p class="foot-status" id="status-cov">Choose how much of the country you cover.</p>
+      <p class="foot-status" id="status-cov">Choose the footprint that fits.</p>
     </div>
     <button class="btn next" id="next-cov" type="button" data-goto="screen-s1">Next: Financial Services →</button>
   </div>
@@ -440,7 +433,7 @@
     <div class="sec-track"><div class="sec-fill" id="fill-s1"></div></div>
     <span class="sec-count" id="count-s1">0 of 3 answered</span>
   </div>
-  <div class="wrap section-body">
+  <div class="wrap-q section-body">
     <p class="section-intro">These are the services that turn a good energy proposal into one a client cannot walk away from. Most energy vendors carry none of them, which makes this one of the clearest gaps in the market.</p>
     <div class="grid grid-2" id="grid-s1">
 
@@ -448,14 +441,13 @@
         <div class="item-head"><span class="idx">01</span><div><span class="item-name">Utility &amp; State Program Funding</span><span class="item-desc">Get 75 to 100% of a client's energy project paid for directly by utility companies and state agencies. The client upgrades with little or nothing out of pocket.</span></div></div>
         <div class="item-actions"><button class="yn yes" data-card="sc-funding" data-section="s1" data-val="yes">Yes</button><button class="yn no" data-card="sc-funding" data-section="s1" data-val="no">No</button><button class="yn skip" data-card="sc-funding" data-section="s1" data-val="skip">Not sure</button></div>
         <div class="fb" id="fb-sc-funding" role="status" aria-live="polite"></div>
-        <div class="tier" id="funding-tier">
-          <div class="tier-head">You can't cover the whole project yet. Which of these can you at least stack?</div>
+        <div class="tier open" id="funding-tier">
+          <div class="tier-head">Which of these can you file turnkey, on the client's behalf?</div>
           <div class="tier-options">
             <label class="chk"><input type="checkbox" class="chk-input" data-card="sc-taxcred"><span>Tax Credits (ITC, 30C)</span></label>
             <label class="chk"><input type="checkbox" class="chk-input" data-card="sc-taxded"><span>Tax Deductions (179D, bonus depreciation)</span></label>
             <label class="chk"><input type="checkbox" class="chk-input" data-card="sc-grants"><span>Specialty Grants</span></label>
           </div>
-          <div class="tier-note">Second tier: these reduce the client's cost, they don't erase it.</div>
         </div>
       </div>
 
@@ -472,7 +464,7 @@
       </div>
 
     </div>
-    <div class="section-foot">
+    <div class="section-foot wrap-q">
       <div class="foot-left">
         <button class="foot-back" type="button" data-goto="screen-cov">← Back to coverage</button>
         <p class="foot-status" id="status-s1">Answer all 3 items, then continue to the technology stack.</p>
@@ -490,7 +482,7 @@
     <div class="sec-track"><div class="sec-fill" id="fill-s2"></div></div>
     <span class="sec-count" id="count-s2">0 of 13 answered</span>
   </div>
-  <div class="wrap section-body">
+  <div class="wrap-q section-body">
     <p class="section-intro">For each capability below, tell us whether you can deliver it to a commercial client today.</p>
     <div class="grid grid-3" id="grid-s2">
 
@@ -573,7 +565,7 @@
       </div>
 
     </div>
-    <div class="section-foot">
+    <div class="section-foot wrap-q">
       <div class="foot-left">
         <button class="foot-back" type="button" data-goto="screen-s1">← Back to Section 2</button>
         <p class="foot-status" id="status-s2">Answer all 13 items to see your markets.</p>
@@ -796,124 +788,39 @@ const cardAnswers = {};
 const subAnswers = {};
 
 // ─────────────────────────────────────────────
-// COVERAGE (Section 1: single-select scope + tailored follow-up)
+// COVERAGE (Section 1: single-select footprint, no state picker)
 // ─────────────────────────────────────────────
-const REGIONS = {
-  'Northeast': ['Connecticut','Maine','Massachusetts','New Hampshire','New Jersey','New York','Pennsylvania','Rhode Island','Vermont'],
-  'Midwest': ['Illinois','Indiana','Iowa','Kansas','Michigan','Minnesota','Missouri','Nebraska','North Dakota','Ohio','South Dakota','Wisconsin'],
-  'South': ['Alabama','Arkansas','Delaware','Florida','Georgia','Kentucky','Louisiana','Maryland','Mississippi','North Carolina','Oklahoma','South Carolina','Tennessee','Texas','Virginia','Washington DC','West Virginia'],
-  'West': ['Alaska','Arizona','California','Colorado','Hawaii','Idaho','Montana','Nevada','New Mexico','Oregon','Utah','Washington','Wyoming'],
-};
-const STATE_REGION = {};
-Object.entries(REGIONS).forEach(([r, list]) => list.forEach(s => { STATE_REGION[s] = r; }));
+const coverage = { extent: null };
 
-const coverage = { scope: null, akhi: null, regions: new Set(), states: new Set() };
-
-function renderCoverage() {
-  document.getElementById('state-grid').innerHTML = Object.entries(REGIONS).map(([r, list]) =>
-    '<div class="state-region"><div class="state-region-head"><span class="rn">' + r + '</span>' +
-    '<button class="select-all" type="button" data-region="' + r + '">Select all ' + list.length + '</button></div>' +
-    '<div class="state-chips">' + list.map(s =>
-      '<button class="state-chip" type="button" data-state="' + s + '" aria-pressed="false">' + s + '</button>'
-    ).join('') + '</div></div>'
-  ).join('');
-}
-
-function clearCoverageSub() {
-  coverage.akhi = null; coverage.regions.clear(); coverage.states.clear();
-  document.querySelectorAll('#follow-nationwide .opt-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
-  document.querySelectorAll('.region-input').forEach(c => { c.checked = false; });
-  document.querySelectorAll('.state-chip').forEach(c => { c.classList.remove('active'); c.setAttribute('aria-pressed','false'); });
-}
-
-function isCoverageComplete() {
-  if (coverage.scope === 'nationwide') return coverage.akhi !== null;
-  if (coverage.scope === 'region') return coverage.regions.size > 0;
-  if (coverage.scope === 'states') return coverage.states.size > 0;
-  return false;
-}
-
-function refreshSelectAll() {
-  document.querySelectorAll('.select-all').forEach(btn => {
-    const r = btn.dataset.region;
-    const allOn = REGIONS[r].every(s => coverage.states.has(s));
-    btn.textContent = allOn ? 'Clear all' : 'Select all ' + REGIONS[r].length;
-    btn.classList.toggle('on', allOn);
-  });
-}
+function renderCoverage() { /* options are static HTML now */ }
 
 function updateCoverage() {
-  const done = isCoverageComplete();
-  document.getElementById('fill-cov').style.width = (coverage.scope ? (done ? 100 : 50) : 0) + '%';
+  const done = coverage.extent !== null;
+  document.getElementById('fill-cov').style.width = (done ? 100 : 0) + '%';
   const count = document.getElementById('count-cov');
   count.textContent = done ? 'Coverage set' : 'Choose your coverage';
   count.classList.toggle('complete', done);
   document.getElementById('next-cov').classList.toggle('ready', done);
   const status = document.getElementById('status-cov');
   if (done) { status.innerHTML = '<strong>Coverage set.</strong> Continue when you are ready.'; status.classList.add('ready'); }
-  else { status.textContent = coverage.scope ? 'Tell us the specifics above.' : 'Choose how much of the country you cover.'; status.classList.remove('ready'); }
-  refreshSelectAll();
+  else { status.textContent = 'Choose the footprint that fits.'; status.classList.remove('ready'); }
 }
 
-function coverageSummary() {
-  if (coverage.scope === 'nationwide') return coverage.akhi === 'yes' ? 'Nationwide, all 50 states' : 'Nationwide, lower 48 states';
-  if (coverage.scope === 'region') return [...coverage.regions].join(', ');
-  if (coverage.scope === 'states') {
-    const n = coverage.states.size;
-    const regs = [...new Set([...coverage.states].map(s => STATE_REGION[s]))];
-    return n + ' state' + (n !== 1 ? 's' : '') + (regs.length ? ' across ' + regs.join(', ') : '');
-  }
-  return 'Not specified';
-}
+function coverageSummary() { return coverage.extent || 'Not specified'; }
 
 function wireCoverage() {
-  document.querySelectorAll('.scope-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const scope = card.dataset.scope;
-      coverage.scope = scope;
-      clearCoverageSub();
-      document.querySelectorAll('.scope-card').forEach(c => { const on = c === card; c.classList.toggle('active', on); c.setAttribute('aria-checked', on ? 'true' : 'false'); });
-      document.querySelectorAll('.follow').forEach(f => f.classList.toggle('open', f.id === 'follow-' + scope));
-      updateCoverage();
-    });
-  });
-  document.querySelectorAll('#follow-nationwide .opt-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('#follow-nationwide .opt-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
-      btn.classList.add('active'); btn.setAttribute('aria-pressed','true');
-      coverage.akhi = btn.dataset.akhi;
-      updateCoverage();
-    });
-  });
-  document.querySelectorAll('.state-chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      const on = chip.classList.toggle('active');
-      if (on) coverage.states.add(chip.dataset.state); else coverage.states.delete(chip.dataset.state);
-      chip.setAttribute('aria-pressed', on ? 'true' : 'false');
-      updateCoverage();
-    });
-  });
-  document.querySelectorAll('.select-all').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const r = btn.dataset.region;
-      const allOn = REGIONS[r].every(s => coverage.states.has(s));
-      REGIONS[r].forEach(s => { if (allOn) coverage.states.delete(s); else coverage.states.add(s); });
-      document.querySelectorAll('.state-chip').forEach(chip => {
-        if (REGIONS[r].includes(chip.dataset.state)) {
-          const on = coverage.states.has(chip.dataset.state);
-          chip.classList.toggle('active', on); chip.setAttribute('aria-pressed', on ? 'true' : 'false');
-        }
-      });
+  document.querySelectorAll('.cov-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      coverage.extent = opt.dataset.extent;
+      document.querySelectorAll('.cov-option').forEach(o => { const on = o === opt; o.classList.toggle('active', on); o.setAttribute('aria-checked', on ? 'true' : 'false'); });
       updateCoverage();
     });
   });
 }
 
 function resetCoverage() {
-  coverage.scope = null;
-  clearCoverageSub();
-  document.querySelectorAll('.scope-card').forEach(c => { c.classList.remove('active'); c.setAttribute('aria-checked','false'); });
-  document.querySelectorAll('.follow').forEach(f => f.classList.remove('open'));
+  coverage.extent = null;
+  document.querySelectorAll('.cov-option').forEach(o => { o.classList.remove('active'); o.setAttribute('aria-checked','false'); });
   updateCoverage();
 }
 
@@ -1005,17 +912,6 @@ document.querySelectorAll('.yn').forEach(btn => {
         if (badge) { badge.textContent = ''; badge.className = 'badge'; }
       }
     }
-    // Funding: No reveals the incentive consolation tier; Yes / Not sure hides it
-    // and clears the incentives (they are "not assessed" when full funding is in play).
-    if (cardId === 'sc-funding') {
-      const tier = document.getElementById('funding-tier');
-      const open = (val === 'no');
-      tier.classList.toggle('open', open);
-      if (!open) {
-        ['sc-taxcred','sc-taxded','sc-grants'].forEach(id => { delete cardAnswers[id]; });
-        tier.querySelectorAll('.chk-input').forEach(c => { c.checked = false; });
-      }
-    }
     updateProgress(section);
   });
 });
@@ -1067,14 +963,12 @@ function statusOf(item) {
 // RESULTS
 // ─────────────────────────────────────────────
 function showResults() {
-  const fundingYes = cardAnswers['sc-funding'] === 'yes';
-  const NOT_ASSESSED = fundingYes ? ['sc-taxcred','sc-taxded','sc-grants'] : [];
-  const sol = SOLUTIONS.filter(s => !NOT_ASSESSED.includes(s.id)).map(s => ({ ...s, status: statusOf(s) }));
-  const TOTAL = sol.length; // dynamic: 17, or 14 when full program funding is in play
+  const sol = SOLUTIONS.map(s => ({ ...s, status: statusOf(s) }));
+  const TOTAL = sol.length;
   const solYes = sol.filter(s => s.status !== 'gap').length;
 
   const facResults = MARKETS.map(m => {
-    const pct = marketReadiness(m, NOT_ASSESSED);
+    const pct = marketReadiness(m, []);
     return { name: m.name, desc: m.desc, m, pct, tier: tierFor(pct) };
   });
   const avgReadiness = Math.round(facResults.reduce((s, f) => s + f.pct, 0) / facResults.length * 100);
@@ -1104,12 +998,12 @@ function showResults() {
   }
   document.getElementById('r-verdict').innerHTML = verdict;
   document.getElementById('r-sting').textContent = sting;
-  document.getElementById('r-coverage').textContent = coverage.scope ? 'Coverage: ' + coverageSummary() : '';
+  document.getElementById('r-coverage').textContent = coverage.extent ? 'Coverage: ' + coverageSummary() : '';
 
   // closest to full: the highest-readiness market not yet fully equipped, plus its top missing solution
   const ranked = facResults.filter(f => f.pct < 1).sort((a, b) => b.pct - a.pct);
   const candidate = ranked[0];
-  const missing = candidate ? topMissing(candidate.m, NOT_ASSESSED) : null;
+  const missing = candidate ? topMissing(candidate.m, []) : null;
   const closestEl = document.getElementById('r-closest');
   if (candidate && missing) {
     closestEl.innerHTML = '<span class="closest-label">Closest to full</span>' +
@@ -1119,7 +1013,7 @@ function showResults() {
   } else { closestEl.classList.remove('show'); closestEl.innerHTML = ''; }
 
   // ── Markets: compact icon + name + rating cards (no lists) ──
-  const facNote = fundingYes ? '<p class="market-note">You answered Yes to full program funding, so the three incentives were not assessed. Markets that lean on them are rated without that funding factored in; confirm with Dan.</p>' : '';
+  const facNote = '';
   const marketCards = facResults.map((f, i) => {
     return '<article class="market-card ' + f.tier.key + ' reveal" style="--i:' + i + '"><span class="m-ico">' + (FAC_ICONS[f.name] || '') + '</span><span class="m-name">' + f.name + '</span><span class="rating ' + f.tier.key + '">' + f.tier.label + '</span></article>';
   }).join('');
@@ -1136,7 +1030,7 @@ function showResults() {
     return '<div class="stack-row ' + s.status + '"><span class="stack-ico">' + ico + '</span><span>' + s.label + tag + '</span></div>';
   }).join('');
   const CLOSING = [['sc-funding','Utility & State Program Funding'],['sc-utility','Utility Rate Negotiation'],['sc-taxcred','Tax Credits (ITC, 30C)'],['sc-taxded','Tax Deductions (179D)'],['sc-grants','Specialty Grants'],['sc-financing','Client Project Financing']]
-    .filter(([id]) => !NOT_ASSESSED.includes(id));
+    .filter(() => true);
   const haveClose = CLOSING.filter(([id]) => has(cardAnswers, id)).length;
   const closeRows = CLOSING.map(([id, label]) => {
     const hv = has(cardAnswers, id);
@@ -1161,7 +1055,6 @@ function resetAudit() {
   document.querySelectorAll('.subs').forEach(el => el.classList.remove('open'));
   document.querySelectorAll('.sub-why').forEach(el => { el.className = 'sub-why'; el.textContent = ''; });
   document.querySelectorAll('.badge').forEach(b => { b.className = 'badge'; b.textContent = ''; });
-  document.querySelectorAll('.tier').forEach(el => el.classList.remove('open'));
   document.querySelectorAll('.chk-input').forEach(c => { c.checked = false; });
   document.querySelectorAll('.btn.next').forEach(b => b.classList.remove('ready'));
   resetCoverage();
