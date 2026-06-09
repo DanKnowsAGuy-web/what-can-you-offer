@@ -74,7 +74,7 @@
   .screen { display: none; }
   .screen.active { display: block; }
   /* clear the fixed header + rail so the sticky bar and content are never clipped */
-  #screen-s1, #screen-s2 { padding-top: var(--chrome-h); }
+  #screen-cov, #screen-s1, #screen-s2 { padding-top: var(--chrome-h); }
   #screen-results { padding-top: var(--chrome-h); }
 
   /* INTRO */
@@ -441,8 +441,11 @@
         <div class="item-head"><span class="idx">01</span><div><span class="item-name">Utility &amp; State Program Funding</span><span class="item-desc">Get 75 to 100% of a client's energy project paid for directly by utility companies and state agencies. The client upgrades with little or nothing out of pocket.</span></div></div>
         <div class="item-actions"><button class="yn yes" data-card="sc-funding" data-section="s1" data-val="yes">Yes</button><button class="yn no" data-card="sc-funding" data-section="s1" data-val="no">No</button><button class="yn skip" data-card="sc-funding" data-section="s1" data-val="skip">Not sure</button></div>
         <div class="fb" id="fb-sc-funding" role="status" aria-live="polite"></div>
-        <div class="tier open" id="funding-tier">
-          <div class="tier-head">Which of these can you file turnkey, on the client's behalf?</div>
+      </div>
+
+      <div class="item" id="sc-incentives">
+        <div class="item-head"><span class="idx">02</span><div><span class="item-name">Incentive Filing</span><span class="item-desc">Which of these can you file turnkey, on the client's behalf?</span></div></div>
+        <div class="tier open">
           <div class="tier-options">
             <label class="chk"><input type="checkbox" class="chk-input" data-card="sc-taxcred"><span>Tax Credits (ITC, 30C)</span></label>
             <label class="chk"><input type="checkbox" class="chk-input" data-card="sc-taxded"><span>Tax Deductions (179D, bonus depreciation)</span></label>
@@ -452,13 +455,13 @@
       </div>
 
       <div class="item" id="sc-utility">
-        <div class="item-head"><span class="idx">02</span><div><span class="item-name">Utility Rate Negotiation</span><span class="item-desc">Negotiate 5 to 40% savings in deregulated markets, and catch improper billing in regulated ones. No equipment, immediate savings.</span></div></div>
+        <div class="item-head"><span class="idx">03</span><div><span class="item-name">Utility Rate Negotiation</span><span class="item-desc">Negotiate 5 to 40% savings in deregulated markets, and catch improper billing in regulated ones. No equipment, immediate savings.</span></div></div>
         <div class="item-actions"><button class="yn yes" data-card="sc-utility" data-section="s1" data-val="yes">Yes</button><button class="yn no" data-card="sc-utility" data-section="s1" data-val="no">No</button><button class="yn skip" data-card="sc-utility" data-section="s1" data-val="skip">Not sure</button></div>
         <div class="fb" id="fb-sc-utility" role="status" aria-live="polite"></div>
       </div>
 
       <div class="item" id="sc-financing">
-        <div class="item-head"><span class="idx">03</span><div><span class="item-name">Client Project Financing</span><span class="item-desc">Give clients day-one cash-flow-positive financing, where the first payment is covered by the savings the project generates.</span></div></div>
+        <div class="item-head"><span class="idx">04</span><div><span class="item-name">Client Project Financing</span><span class="item-desc">Give clients day-one cash-flow-positive financing, where the first payment is covered by the savings the project generates.</span></div></div>
         <div class="item-actions"><button class="yn yes" data-card="sc-financing" data-section="s1" data-val="yes">Yes</button><button class="yn no" data-card="sc-financing" data-section="s1" data-val="no">No</button><button class="yn skip" data-card="sc-financing" data-section="s1" data-val="skip">Not sure</button></div>
         <div class="fb" id="fb-sc-financing" role="status" aria-live="polite"></div>
       </div>
@@ -591,6 +594,7 @@
 
     <div class="block">
       <div class="block-title">Markets you can serve today</div>
+      <div class="closest" id="r-closest"></div>
       <div class="tier-key">
         <span class="tier-key-label">Rating</span>
         <span class="rating fully">Fully equipped</span>
@@ -599,7 +603,6 @@
         <span class="rating foothold">Foothold</span>
         <span class="rating open">Wide open</span>
       </div>
-      <div class="closest" id="r-closest"></div>
       <div class="fac-grid" id="r-fac-grid"></div>
     </div>
 
