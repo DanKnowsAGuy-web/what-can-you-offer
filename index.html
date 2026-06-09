@@ -189,6 +189,8 @@
   .rating.foothold { color: var(--muted); border-color: var(--border-sub); }
   .rating.open { color: var(--red); border-color: rgba(214,121,109,0.4); }
   .market-note { font-size: var(--t-sm); color: var(--muted); font-style: italic; line-height: 1.6; margin-bottom: 1rem; max-width: 64ch; }
+  .tier-key { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-bottom: 1.4rem; }
+  .tier-key-label { font-family: var(--font-label); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-right: 0.25rem; }
 
   /* RESULTS: unified "Your stack" box */
   .stack { border: 1px solid var(--border); background: var(--navy-card); padding: 1.75rem 2rem; }
@@ -604,6 +606,14 @@
 
     <div class="block">
       <div class="block-title">Markets you can serve today</div>
+      <div class="tier-key">
+        <span class="tier-key-label">Rating</span>
+        <span class="rating fully">Fully equipped</span>
+        <span class="rating well">Well-positioned</span>
+        <span class="rating building">Building</span>
+        <span class="rating foothold">Foothold</span>
+        <span class="rating open">Wide open</span>
+      </div>
       <div class="closest" id="r-closest"></div>
       <div class="fac-grid" id="r-fac-grid"></div>
     </div>
