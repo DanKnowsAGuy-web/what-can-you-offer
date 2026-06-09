@@ -178,14 +178,16 @@
   /* RESULTS: compact market cards (icon + name + rating) */
   .market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1px; background: var(--border-sub); border: 1px solid var(--border-sub); }
   .market-card { background: var(--navy-card); padding: 1.1rem 1.2rem; display: flex; align-items: center; gap: 1rem; }
-  .market-card.qualified { background: rgba(87,191,152,0.05); }
+  .market-card.fully { background: rgba(87,191,152,0.06); }
   .m-ico { flex-shrink: 0; color: var(--amber); display: flex; }
   .m-ico svg { width: 34px; height: 34px; }
   .m-name { flex: 1; font-family: var(--font-display); font-weight: 500; font-size: 1.18rem; color: var(--white); line-height: 1.2; }
   .rating { flex-shrink: 0; font-family: var(--font-label); font-weight: 700; font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.32rem 0.7rem; border: 1px solid; white-space: nowrap; }
-  .rating.qualified { color: var(--green); border-color: rgba(87,191,152,0.45); }
-  .rating.partial { color: var(--amber-light); border-color: var(--border); }
-  .rating.not-yet { color: var(--red); border-color: rgba(214,121,109,0.4); }
+  .rating.fully { color: var(--green); border-color: rgba(87,191,152,0.45); }
+  .rating.well { color: var(--amber-light); border-color: var(--border); }
+  .rating.building { color: var(--amber); border-color: var(--border); }
+  .rating.foothold { color: var(--muted); border-color: var(--border-sub); }
+  .rating.open { color: var(--red); border-color: rgba(214,121,109,0.4); }
   .market-note { font-size: var(--t-sm); color: var(--muted); font-style: italic; line-height: 1.6; margin-bottom: 1rem; max-width: 64ch; }
 
   /* RESULTS: unified "Your stack" box */
@@ -593,7 +595,7 @@
         <div class="score-div"></div>
         <div class="score"><span class="score-num" id="r-full">0</span><span class="score-den" id="r-full-den"></span><span class="score-label">Fully Covered</span></div>
         <div class="score-div"></div>
-        <div class="score"><span class="score-num" id="r-fac">0</span><span class="score-den"> / 6</span><span class="score-label">Markets Qualified</span></div>
+        <div class="score"><span class="score-num" id="r-fac">0</span><span class="score-den"></span><span class="score-label">Avg market readiness</span></div>
       </div>
       <h2 class="verdict" id="r-verdict"></h2>
       <p class="sting" id="r-sting"></p>
@@ -721,71 +723,51 @@ const SECTION_IDS = {
 const ALL_IDS = [...SECTION_IDS.s1, ...SECTION_IDS.s2];
 
 // ─────────────────────────────────────────────
-// FACILITY QUALIFICATION MATRIX (derives markets from solutions)
+// MARKET READINESS (graduated coverage % -> 5 tiers)
+// Each market has a weighted checklist: core x2, supporting x1.
+// A partial HVAC / Power Quality / LED earns half credit (via sub-questions).
 // ─────────────────────────────────────────────
 const has = (a, id) => a[id] === 'yes';
-const hasPQFull = (a, sub) => has(a,'sc-powerq') && sub['powerq']?.[0]==='yes' && sub['powerq']?.[1]==='yes' && sub['powerq']?.[2]==='yes' && sub['powerq']?.[3]==='yes';
-const universalFull = (a, sub) => has(a,'sc-hvac') && hasPQFull(a,sub) && has(a,'sc-battery') && has(a,'sc-utility');
-const corePresent = (a) => has(a,'sc-hvac') && has(a,'sc-powerq');
-function universalGaps(a, sub) {
-  const g = [];
-  if (!has(a,'sc-utility')) g.push('Utility Rate Negotiation');
-  if (!has(a,'sc-hvac'))    g.push('HVAC Systems');
-  if (!hasPQFull(a,sub))    g.push('Power Quality (all four capabilities)');
-  if (!has(a,'sc-battery')) g.push('Battery Storage & Peak Shaving');
-  return g;
-}
-const CORE_MISSING = ['HVAC Systems (core requirement)', 'Power Quality & Harmonic Filtration (core requirement)'];
+const SOL_BY_ID = {}; SOLUTIONS.forEach(s => SOL_BY_ID[s.id] = s);
 
-function addGaps(a, ...pairs) {
-  const out = [];
-  pairs.forEach(([id, label]) => { if (!has(a, id)) out.push(label); });
-  return out;
-}
-
-const FAC_RULES = [
+const MARKETS = [
   { name:'Commercial & Mixed-Use', desc:'Office, retail, multifamily, hospitality, fitness',
-    qualify(a, sub) {
-      if (universalFull(a,sub)) return { status:'qualified', messages:['Universal baseline met. You can serve the full commercial and mixed-use market.'] };
-      if (corePresent(a)) return { status:'partial', messages: universalGaps(a,sub) };
-      return { status:'not-yet', messages: CORE_MISSING };
-    } },
+    core:['sc-hvac','sc-led','sc-powerq'], support:['sc-battery','sc-iot','sc-ev','sc-utility','sc-solar','sc-envelope'] },
   { name:'Food & Cold Chain', desc:'QSR, grocery, convenience store, cold storage',
-    qualify(a, sub) {
-      const refrig = has(a,'sc-refrig');
-      if (universalFull(a,sub) && refrig) return { status:'qualified', messages:['Universal baseline plus Refrigeration Optimization. Full cold chain coverage.'] };
-      if (corePresent(a)) { const g = universalGaps(a,sub); if (!refrig) g.push('Refrigeration Optimization'); return { status:'partial', messages:g }; }
-      return { status:'not-yet', messages: CORE_MISSING };
-    } },
+    core:['sc-refrig','sc-hvac'], support:['sc-powerq','sc-battery','sc-utility','sc-led','sc-iot'] },
   { name:'Industrial, Warehouse & Mfg', desc:'Distribution centers, light and heavy manufacturing',
-    qualify(a, sub) {
-      const motors = has(a,'sc-motors');
-      if (universalFull(a,sub) && motors) return { status:'qualified', messages:['Universal baseline plus Motor & VFD Retrofits. Full industrial coverage.'] };
-      if (corePresent(a)) { const g = universalGaps(a,sub); if (!motors) g.push('Motor & VFD Retrofit Upgrades'); return { status:'partial', messages:g }; }
-      return { status:'not-yet', messages: CORE_MISSING };
-    } },
+    core:['sc-motors','sc-powerq','sc-hvac'], support:['sc-battery','sc-utility','sc-customrd','sc-iot','sc-solar'] },
   { name:'Institutional & Public', desc:'K-12, higher education, municipal, government',
-    qualify(a, sub) {
-      const extra = [['sc-taxded','Tax Deductions (179D)'],['sc-grants','Specialty Grants'],['sc-led','LED & Lighting Retrofits'],['sc-envelope','Building Envelope Solutions']];
-      if (universalFull(a,sub) && extra.every(([id]) => has(a,id))) return { status:'qualified', messages:['Universal baseline plus the full financial and efficiency stack. Complete institutional coverage.'] };
-      if (corePresent(a)) return { status:'partial', messages:[...universalGaps(a,sub), ...addGaps(a, ...extra)] };
-      return { status:'not-yet', messages: CORE_MISSING };
-    } },
+    core:['sc-led','sc-hvac','sc-taxded','sc-grants'], support:['sc-envelope','sc-powerq','sc-battery','sc-solar','sc-utility'] },
   { name:'Healthcare & Life Sciences', desc:'Hospitals, clinics, pharmaceutical, medical office',
-    qualify(a, sub) {
-      const stack = [['sc-taxcred','Tax Credits (ITC, 30C)'],['sc-taxded','Tax Deductions (179D)'],['sc-grants','Specialty Grants'],['sc-financing','Client Project Financing'],['sc-led','LED & Lighting Retrofits'],['sc-envelope','Building Envelope Solutions'],['sc-iot','IoT & Smart Building Controls'],['sc-solar','Solar PV'],['sc-customrd','Custom R&D & Manufacturing']];
-      if (universalFull(a,sub) && stack.every(([id]) => has(a,id))) return { status:'qualified', messages:['Entire stack confirmed. Healthcare is the most demanding category and you can serve it.'] };
-      if (corePresent(a)) { const g = [...universalGaps(a,sub), ...addGaps(a, ...stack)]; return { status:'partial', messages: g.length ? g.slice(0,4) : ['Close. Full stack confirmation required.'] }; }
-      return { status:'not-yet', messages: CORE_MISSING };
-    } },
+    core:['sc-powerq','sc-hvac','sc-battery','sc-iot'], support:['sc-solar','sc-envelope','sc-customrd','sc-financing','sc-taxcred','sc-led'] },
   { name:'Data Centers', desc:'Colocation, enterprise, hyperscale',
-    qualify(a, sub) {
-      const stack = [['sc-motors','Motor & VFD Retrofit Upgrades'],['sc-taxcred','Tax Credits (ITC, 30C)'],['sc-taxded','Tax Deductions (179D)'],['sc-grants','Specialty Grants'],['sc-financing','Client Project Financing'],['sc-led','LED & Lighting Retrofits'],['sc-envelope','Building Envelope Solutions'],['sc-iot','IoT & Smart Building Controls'],['sc-solar','Solar PV'],['sc-customrd','Custom R&D & Manufacturing']];
-      if (universalFull(a,sub) && stack.every(([id]) => has(a,id))) return { status:'qualified', messages:['Universal baseline and full stack confirmed. Complete data center coverage.'] };
-      if (corePresent(a)) { const g = [...universalGaps(a,sub), ...addGaps(a, ...stack)]; return { status:'partial', messages: g.length ? g.slice(0,4) : ['Close. Full stack confirmation required.'] }; }
-      return { status:'not-yet', messages: CORE_MISSING };
-    } },
+    core:['sc-powerq','sc-battery','sc-customrd'], support:['sc-motors','sc-solar','sc-iot','sc-financing','sc-hvac'] },
 ];
+
+const TIERS = [
+  { key:'fully',    label:'Fully equipped',  min:1.0  },
+  { key:'well',     label:'Well-positioned', min:0.75 },
+  { key:'building', label:'Building',        min:0.5  },
+  { key:'foothold', label:'Foothold',        min:0.25 },
+  { key:'open',     label:'Wide open',       min:0    },
+];
+function tierFor(pct) { return TIERS.find(t => pct >= t.min) || TIERS[TIERS.length - 1]; }
+
+function marketReadiness(m, excluded) {
+  let num = 0, den = 0;
+  const credit = id => { const st = statusOf(SOL_BY_ID[id]); return st === 'have' ? 1 : st === 'partial' ? 0.5 : 0; };
+  const add = (ids, w) => ids.forEach(id => { if (excluded && excluded.includes(id)) return; den += w; num += w * credit(id); });
+  add(m.core, 2); add(m.support, 1);
+  return den > 0 ? num / den : 0;
+}
+function topMissing(m, excluded) {
+  for (const id of [...m.core, ...m.support]) {
+    if (excluded && excluded.includes(id)) continue;
+    if (statusOf(SOL_BY_ID[id]) === 'gap') return SOL_BY_ID[id].label;
+  }
+  return null;
+}
 
 // ─────────────────────────────────────────────
 // FACILITY ICONS (schematic line art, stroke = currentColor)
@@ -811,12 +793,9 @@ const subAnswers = {};
 // ─────────────────────────────────────────────
 const REGIONS = {
   'Northeast': ['Maine','New Hampshire','Vermont','Massachusetts','Rhode Island','Connecticut','New York','New Jersey','Pennsylvania'],
-  'Southeast': ['Delaware','Maryland','Washington DC','Virginia','West Virginia','North Carolina','South Carolina','Georgia','Florida','Kentucky','Tennessee','Alabama','Mississippi'],
   'Midwest': ['Ohio','Michigan','Indiana','Illinois','Wisconsin','Minnesota','Iowa','Missouri','North Dakota','South Dakota','Nebraska','Kansas'],
-  'South Central': ['Texas','Oklahoma','Arkansas','Louisiana'],
-  'Mountain West': ['Montana','Idaho','Wyoming','Colorado','Utah','Nevada','Arizona','New Mexico'],
-  'Pacific': ['Washington','Oregon','California'],
-  'Alaska & Hawaii': ['Alaska','Hawaii'],
+  'South': ['Delaware','Maryland','Washington DC','Virginia','West Virginia','North Carolina','South Carolina','Georgia','Florida','Kentucky','Tennessee','Alabama','Mississippi','Texas','Oklahoma','Arkansas','Louisiana'],
+  'West': ['Montana','Idaho','Wyoming','Colorado','Utah','Nevada','Arizona','New Mexico','Washington','Oregon','California','Alaska','Hawaii'],
 };
 const STATE_REGION = {};
 Object.entries(REGIONS).forEach(([r, list]) => list.forEach(s => { STATE_REGION[s] = r; }));
@@ -1084,8 +1063,11 @@ function showResults() {
   const solFull = sol.filter(s => s.status === 'have').length;
   const solPartial = sol.filter(s => s.status === 'partial').length;
 
-  const facResults = FAC_RULES.map(r => ({ name: r.name, desc: r.desc, ...r.qualify(cardAnswers, subAnswers) }));
-  const qualified = facResults.filter(f => f.status === 'qualified').length;
+  const facResults = MARKETS.map(m => {
+    const pct = marketReadiness(m, NOT_ASSESSED);
+    return { name: m.name, desc: m.desc, m, pct, tier: tierFor(pct) };
+  });
+  const avgReadiness = Math.round(facResults.reduce((s, f) => s + f.pct, 0) / facResults.length * 100);
 
   // scores
   document.getElementById('r-sol').textContent = solYes;
@@ -1094,8 +1076,8 @@ function showResults() {
   document.getElementById('r-full').textContent = solFull;
   document.getElementById('r-full').style.color = solFull/TOTAL >= 0.5 ? 'var(--green)' : solFull/TOTAL >= 0.25 ? 'var(--amber-light)' : 'var(--red)';
   document.getElementById('r-full-den').textContent = ' / ' + TOTAL;
-  document.getElementById('r-fac').textContent = qualified;
-  document.getElementById('r-fac').style.color = qualified >= 4 ? 'var(--green)' : qualified >= 2 ? 'var(--amber-light)' : 'var(--red)';
+  document.getElementById('r-fac').textContent = avgReadiness + '%';
+  document.getElementById('r-fac').style.color = avgReadiness >= 60 ? 'var(--green)' : avgReadiness >= 35 ? 'var(--amber-light)' : 'var(--red)';
 
   // verdict
   const pct = solYes / TOTAL;
@@ -1117,24 +1099,22 @@ function showResults() {
   document.getElementById('r-sting').textContent = sting;
   document.getElementById('r-coverage').textContent = coverage.scope ? 'Coverage: ' + coverageSummary() : '';
 
-  // closest gap
-  const partials = facResults.filter(f => f.status === 'partial');
-  const notYets = facResults.filter(f => f.status === 'not-yet').sort((a,b) => a.messages.length - b.messages.length);
-  const candidate = partials.length ? partials.sort((a,b) => a.messages.length - b.messages.length)[0] : notYets[0];
+  // closest to full: the highest-readiness market not yet fully equipped, plus its top missing solution
+  const ranked = facResults.filter(f => f.pct < 1).sort((a, b) => b.pct - a.pct);
+  const candidate = ranked[0];
+  const missing = candidate ? topMissing(candidate.m, NOT_ASSESSED) : null;
   const closestEl = document.getElementById('r-closest');
-  if (candidate && candidate.messages.length && qualified < FAC_RULES.length) {
-    const n = candidate.messages.length;
-    closestEl.innerHTML = '<span class="closest-label">Closest gap</span>' +
-      '<div class="closest-headline">You are <em>' + (n === 1 ? 'one solution' : n + ' solutions') + ' away</em> from qualifying for ' + candidate.name + '.</div>' +
-      '<div class="closest-detail">' + (n === 1 ? 'The only thing missing: ' : 'Start with: ') + candidate.messages[0] + '.</div>';
+  if (candidate && missing) {
+    closestEl.innerHTML = '<span class="closest-label">Closest to full</span>' +
+      '<div class="closest-headline">You are <em>' + Math.round(candidate.pct * 100) + '% of the way</em> to fully equipping ' + candidate.name + '.</div>' +
+      '<div class="closest-detail">The highest-impact gap to close next: ' + missing + '.</div>';
     closestEl.classList.add('show');
   } else { closestEl.classList.remove('show'); closestEl.innerHTML = ''; }
 
   // ── Markets: compact icon + name + rating cards (no lists) ──
   const facNote = fundingYes ? '<p class="market-note">You answered Yes to full program funding, so the three incentives were not assessed. Markets that lean on them are rated without that funding factored in; confirm with Dan.</p>' : '';
   const marketCards = facResults.map((f, i) => {
-    const label = f.status === 'qualified' ? 'Qualified' : f.status === 'partial' ? 'Partial' : 'Not yet';
-    return '<article class="market-card ' + f.status + ' reveal" style="--i:' + i + '"><span class="m-ico">' + (FAC_ICONS[f.name] || '') + '</span><span class="m-name">' + f.name + '</span><span class="rating ' + f.status + '">' + label + '</span></article>';
+    return '<article class="market-card ' + f.tier.key + ' reveal" style="--i:' + i + '"><span class="m-ico">' + (FAC_ICONS[f.name] || '') + '</span><span class="m-name">' + f.name + '</span><span class="rating ' + f.tier.key + '">' + f.tier.label + '</span></article>';
   }).join('');
   const facWrap = document.getElementById('r-fac-grid');
   facWrap.className = '';
