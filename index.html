@@ -106,6 +106,18 @@
   .item-name .badge { margin-left: 0.4rem; }
   .item-desc { font-size: var(--t-sm); color: var(--muted); line-height: 1.5; }
   .item-actions { display: flex; gap: 0.4rem; padding: 0 1.15rem 0.9rem; margin-top: auto; }
+
+  /* tighter horizontal card: name + desc on the left, buttons on the right */
+  .grid.tight .item { display: grid; grid-template-columns: 1fr 280px; align-items: center; column-gap: 1.25rem; row-gap: 0.35rem; padding: 0.8rem 1.15rem; }
+  .grid.tight .item-head { padding: 0; }
+  .grid.tight .item-name { font-size: 1.1rem; margin-bottom: 0.1rem; }
+  .grid.tight .item-desc { font-size: 0.92rem; line-height: 1.45; }
+  .grid.tight .item-actions { padding: 0; margin: 0; }
+  .grid.tight .fb { grid-column: 1 / -1; margin: 0.35rem 0 0; }
+  @media (max-width: 620px) {
+    .grid.tight .item { grid-template-columns: 1fr; }
+    .grid.tight .item-actions { margin-top: 0.5rem; }
+  }
   .yn { flex: 1; min-height: 46px; font-family: var(--font-label); font-size: 1rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.5rem 0.4rem; border: 1px solid var(--border-sub); background: transparent; color: var(--muted); cursor: pointer; transition: border-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), background var(--dur-micro) var(--ease-out); }
   .yn:hover { border-color: var(--muted); color: var(--cream); }
   .yn.active { border-color: var(--amber); color: var(--navy); background: var(--amber); }
@@ -377,9 +389,11 @@
   <span class="rail-sep">›</span>
   <div class="rail-step" id="rs2" data-step="2"><span class="rail-num" id="rn2">2</span><span>Financial Services</span></div>
   <span class="rail-sep">›</span>
-  <div class="rail-step" id="rs3" data-step="3"><span class="rail-num" id="rn3">3</span><span>Technology Stack</span></div>
+  <div class="rail-step" id="rs3" data-step="3"><span class="rail-num" id="rn3">3</span><span>Efficiency</span></div>
   <span class="rail-sep">›</span>
-  <div class="rail-step" id="rs4" data-step="4"><span class="rail-num" id="rn4">4</span><span>Your Markets</span></div>
+  <div class="rail-step" id="rs4" data-step="4"><span class="rail-num" id="rn4">4</span><span>Power &amp; Technology</span></div>
+  <span class="rail-sep">›</span>
+  <div class="rail-step" id="rs5" data-step="5"><span class="rail-num" id="rn5">5</span><span>Your Markets</span></div>
 </nav>
 
 <main id="app">
@@ -470,24 +484,24 @@
     <div class="section-foot wrap-q">
       <div class="foot-left">
         <button class="foot-back" type="button" data-goto="screen-cov">← Back to coverage</button>
-        <p class="foot-status" id="status-s1">Answer all 3 items, then continue to the technology stack.</p>
+        <p class="foot-status" id="status-s1">Answer all 3 items, then continue to efficiency.</p>
       </div>
-      <button class="btn next" id="next-s1" type="button" data-goto="screen-s2">Next: Technology Stack →</button>
+      <button class="btn next" id="next-s1" type="button" data-goto="screen-s2">Next: Efficiency →</button>
     </div>
   </div>
 </section>
 
-<!-- SECTION 2: TECHNOLOGY STACK -->
+<!-- SECTION 3: EFFICIENCY -->
 <section class="screen" id="screen-s2">
   <div class="sec-bar">
     <span class="label">Section 3</span>
-    <span class="sec-bar-title">Your Technology Stack</span>
+    <span class="sec-bar-title">Efficiency</span>
     <div class="sec-track"><div class="sec-fill" id="fill-s2"></div></div>
-    <span class="sec-count" id="count-s2">0 of 13 answered</span>
+    <span class="sec-count" id="count-s2">0 of 6 answered</span>
   </div>
   <div class="wrap-q section-body">
-    <p class="section-intro">For each capability below, tell us whether you can deliver it to a commercial client today.</p>
-    <div class="grid grid-3" id="grid-s2">
+    <p class="section-intro">Solutions that cut what a building uses. Tell us what you can deliver to a commercial client today.</p>
+    <div class="grid grid-3 tight" id="grid-s2">
 
       <div class="item" id="sc-hvac-comp">
         <div class="item-head"><span class="idx">01</span><div><span class="item-name">HVAC Compressor Optimization</span><span class="item-desc">Cut 25 to 40% of HVAC energy with compressor optimization across single, multi, and inverter systems, plus refrigerant enhancement.</span></div></div>
@@ -502,21 +516,9 @@
       </div>
 
       <div class="item" id="sc-refrig">
-        <div class="item-head"><span class="idx">02</span><div><span class="item-name">Refrigeration Optimization</span><span class="item-desc">Cut refrigeration energy 15 to 30% across walk-in coolers, reach-ins, rack systems, and display cases.</span></div></div>
+        <div class="item-head"><span class="idx">03</span><div><span class="item-name">Refrigeration Optimization</span><span class="item-desc">Cut refrigeration energy 15 to 30% across walk-in coolers, reach-ins, rack systems, and display cases.</span></div></div>
         <div class="item-actions"><button class="yn yes" data-card="sc-refrig" data-section="s2" data-val="yes">Yes</button><button class="yn no" data-card="sc-refrig" data-section="s2" data-val="no">No</button><button class="yn skip" data-card="sc-refrig" data-section="s2" data-val="skip">Not sure</button></div>
         <div class="fb" id="fb-sc-refrig" role="status" aria-live="polite"></div>
-      </div>
-
-      <div class="item" id="sc-powerq">
-        <div class="item-head"><span class="idx">04</span><div><span class="item-name">Power Quality &amp; Harmonic Filtration</span><span class="item-desc">Clear dirty power, three-phase harmonics, and reactive load penalties for 8 to 20% savings, and extend equipment life 5 to 15 years.</span></div></div>
-        <div class="item-actions"><button class="yn yes" data-card="sc-powerq" data-section="s2" data-val="yes">Yes</button><button class="yn no" data-card="sc-powerq" data-section="s2" data-val="no">No</button><button class="yn skip" data-card="sc-powerq" data-section="s2" data-val="skip">Not sure</button></div>
-        <div class="fb" id="fb-sc-powerq" role="status" aria-live="polite"></div>
-      </div>
-
-      <div class="item" id="sc-pq-datacenter">
-        <div class="item-head"><span class="idx">05</span><div><span class="item-name">Data-Center Harmonic Management</span><span class="item-desc">Manage harmonic distortion where 85 to 90% of load is nonlinear, the data-center and heavy-industrial differentiator few partners can deliver.</span></div></div>
-        <div class="item-actions"><button class="yn yes" data-card="sc-pq-datacenter" data-section="s2" data-val="yes">Yes</button><button class="yn no" data-card="sc-pq-datacenter" data-section="s2" data-val="no">No</button><button class="yn skip" data-card="sc-pq-datacenter" data-section="s2" data-val="skip">Not sure</button></div>
-        <div class="fb" id="fb-sc-pq-datacenter" role="status" aria-live="polite"></div>
       </div>
 
       <div class="item" id="sc-motors">
@@ -526,7 +528,7 @@
       </div>
 
       <div class="item" id="sc-led">
-        <div class="item-head"><span class="idx">07</span><div><span class="item-name">LED &amp; Lighting Retrofits</span><span class="item-desc">Cut lighting energy and maintenance with interior and exterior LED at factory-direct, highest-lumen pricing.</span></div></div>
+        <div class="item-head"><span class="idx">05</span><div><span class="item-name">LED &amp; Lighting Retrofits</span><span class="item-desc">Cut lighting energy and maintenance with interior and exterior LED at factory-direct, highest-lumen pricing.</span></div></div>
         <div class="item-actions"><button class="yn yes" data-card="sc-led" data-section="s2" data-val="yes">Yes</button><button class="yn no" data-card="sc-led" data-section="s2" data-val="no">No</button><button class="yn skip" data-card="sc-led" data-section="s2" data-val="skip">Not sure</button></div>
         <div class="fb" id="fb-sc-led" role="status" aria-live="polite"></div>
       </div>
@@ -537,43 +539,78 @@
         <div class="fb" id="fb-sc-envelope" role="status" aria-live="polite"></div>
       </div>
 
-      <div class="item" id="sc-iot">
-        <div class="item-head"><span class="idx">07</span><div><span class="item-name">IoT &amp; Smart Building Controls</span><span class="item-desc">Hold the savings in place with real-time monitoring and continuous optimization across every facility system.</span></div></div>
-        <div class="item-actions"><button class="yn yes" data-card="sc-iot" data-section="s2" data-val="yes">Yes</button><button class="yn no" data-card="sc-iot" data-section="s2" data-val="no">No</button><button class="yn skip" data-card="sc-iot" data-section="s2" data-val="skip">Not sure</button></div>
-        <div class="fb" id="fb-sc-iot" role="status" aria-live="polite"></div>
+    </div>
+    <div class="section-foot wrap-q">
+      <div class="foot-left">
+        <button class="foot-back" type="button" data-goto="screen-s1">← Back to Financial</button>
+        <p class="foot-status" id="status-s2">Answer all 6 items, then continue.</p>
+      </div>
+      <button class="btn next" id="next-s2" type="button" data-goto="screen-s3">Next: Power &amp; Technology →</button>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: POWER & TECHNOLOGY -->
+<section class="screen" id="screen-s3">
+  <div class="sec-bar">
+    <span class="label">Section 4</span>
+    <span class="sec-bar-title">Power &amp; Technology</span>
+    <div class="sec-track"><div class="sec-fill" id="fill-s3"></div></div>
+    <span class="sec-count" id="count-s3">0 of 7 answered</span>
+  </div>
+  <div class="wrap-q section-body">
+    <p class="section-intro">Power quality, on-site generation, storage, and controls. Tell us what you can deliver today.</p>
+    <div class="grid grid-3 tight" id="grid-s3">
+
+      <div class="item" id="sc-powerq">
+        <div class="item-head"><span class="idx">01</span><div><span class="item-name">Power Quality &amp; Harmonic Filtration</span><span class="item-desc">Clear dirty power, three-phase harmonics, and reactive load penalties for 8 to 20% savings, and extend equipment life 5 to 15 years.</span></div></div>
+        <div class="item-actions"><button class="yn yes" data-card="sc-powerq" data-section="s3" data-val="yes">Yes</button><button class="yn no" data-card="sc-powerq" data-section="s3" data-val="no">No</button><button class="yn skip" data-card="sc-powerq" data-section="s3" data-val="skip">Not sure</button></div>
+        <div class="fb" id="fb-sc-powerq" role="status" aria-live="polite"></div>
+      </div>
+
+      <div class="item" id="sc-pq-datacenter">
+        <div class="item-head"><span class="idx">02</span><div><span class="item-name">Data-Center Harmonic Management</span><span class="item-desc">Manage harmonic distortion where 85 to 90% of load is nonlinear, the data-center and heavy-industrial differentiator few partners can deliver.</span></div></div>
+        <div class="item-actions"><button class="yn yes" data-card="sc-pq-datacenter" data-section="s3" data-val="yes">Yes</button><button class="yn no" data-card="sc-pq-datacenter" data-section="s3" data-val="no">No</button><button class="yn skip" data-card="sc-pq-datacenter" data-section="s3" data-val="skip">Not sure</button></div>
+        <div class="fb" id="fb-sc-pq-datacenter" role="status" aria-live="polite"></div>
       </div>
 
       <div class="item" id="sc-solar">
-        <div class="item-head"><span class="idx">08</span><div><span class="item-name">Solar PV (Commercial &amp; Utility Scale)</span><span class="item-desc">Generate on-site power for the client, rooftop through utility-scale solar.</span></div></div>
-        <div class="item-actions"><button class="yn yes" data-card="sc-solar" data-section="s2" data-val="yes">Yes</button><button class="yn no" data-card="sc-solar" data-section="s2" data-val="no">No</button><button class="yn skip" data-card="sc-solar" data-section="s2" data-val="skip">Not sure</button></div>
+        <div class="item-head"><span class="idx">03</span><div><span class="item-name">Solar PV (Commercial &amp; Utility Scale)</span><span class="item-desc">Generate on-site power for the client, rooftop through utility-scale solar.</span></div></div>
+        <div class="item-actions"><button class="yn yes" data-card="sc-solar" data-section="s3" data-val="yes">Yes</button><button class="yn no" data-card="sc-solar" data-section="s3" data-val="no">No</button><button class="yn skip" data-card="sc-solar" data-section="s3" data-val="skip">Not sure</button></div>
         <div class="fb" id="fb-sc-solar" role="status" aria-live="polite"></div>
       </div>
 
       <div class="item" id="sc-battery">
-        <div class="item-head"><span class="idx">09</span><div><span class="item-name">Battery Storage &amp; Peak Shaving</span><span class="item-desc">Eliminate demand charges worth 30 to 50% of the utility bill with storage and peak shaving. 30% tax credit eligible.</span></div></div>
-        <div class="item-actions"><button class="yn yes" data-card="sc-battery" data-section="s2" data-val="yes">Yes</button><button class="yn no" data-card="sc-battery" data-section="s2" data-val="no">No</button><button class="yn skip" data-card="sc-battery" data-section="s2" data-val="skip">Not sure</button></div>
+        <div class="item-head"><span class="idx">04</span><div><span class="item-name">Battery Storage &amp; Peak Shaving</span><span class="item-desc">Eliminate demand charges worth 30 to 50% of the utility bill with storage and peak shaving. 30% tax credit eligible.</span></div></div>
+        <div class="item-actions"><button class="yn yes" data-card="sc-battery" data-section="s3" data-val="yes">Yes</button><button class="yn no" data-card="sc-battery" data-section="s3" data-val="no">No</button><button class="yn skip" data-card="sc-battery" data-section="s3" data-val="skip">Not sure</button></div>
         <div class="fb" id="fb-sc-battery" role="status" aria-live="polite"></div>
       </div>
 
       <div class="item" id="sc-ev">
-        <div class="item-head"><span class="idx">10</span><div><span class="item-name">EV Charging Infrastructure</span><span class="item-desc">Turn a client's parking into revenue with Level 2 and Level 3 DC fast charging. 30C tax credit eligible.</span></div></div>
-        <div class="item-actions"><button class="yn yes" data-card="sc-ev" data-section="s2" data-val="yes">Yes</button><button class="yn no" data-card="sc-ev" data-section="s2" data-val="no">No</button><button class="yn skip" data-card="sc-ev" data-section="s2" data-val="skip">Not sure</button></div>
+        <div class="item-head"><span class="idx">05</span><div><span class="item-name">EV Charging Infrastructure</span><span class="item-desc">Turn a client's parking into revenue with Level 2 and Level 3 DC fast charging. 30C tax credit eligible.</span></div></div>
+        <div class="item-actions"><button class="yn yes" data-card="sc-ev" data-section="s3" data-val="yes">Yes</button><button class="yn no" data-card="sc-ev" data-section="s3" data-val="no">No</button><button class="yn skip" data-card="sc-ev" data-section="s3" data-val="skip">Not sure</button></div>
         <div class="fb" id="fb-sc-ev" role="status" aria-live="polite"></div>
       </div>
 
+      <div class="item" id="sc-iot">
+        <div class="item-head"><span class="idx">06</span><div><span class="item-name">IoT &amp; Smart Building Controls</span><span class="item-desc">Hold the savings in place with real-time monitoring and continuous optimization across every facility system.</span></div></div>
+        <div class="item-actions"><button class="yn yes" data-card="sc-iot" data-section="s3" data-val="yes">Yes</button><button class="yn no" data-card="sc-iot" data-section="s3" data-val="no">No</button><button class="yn skip" data-card="sc-iot" data-section="s3" data-val="skip">Not sure</button></div>
+        <div class="fb" id="fb-sc-iot" role="status" aria-live="polite"></div>
+      </div>
+
       <div class="item" id="sc-customrd">
-        <div class="item-head"><span class="idx">11</span><div><span class="item-name">Custom R&amp;D &amp; Manufacturing</span><span class="item-desc">Engineer and build a custom solution when nothing off-the-shelf fits the client's need.</span></div></div>
-        <div class="item-actions"><button class="yn yes" data-card="sc-customrd" data-section="s2" data-val="yes">Yes</button><button class="yn no" data-card="sc-customrd" data-section="s2" data-val="no">No</button><button class="yn skip" data-card="sc-customrd" data-section="s2" data-val="skip">Not sure</button></div>
+        <div class="item-head"><span class="idx">07</span><div><span class="item-name">Custom R&amp;D &amp; Manufacturing</span><span class="item-desc">Engineer and build a custom solution when nothing off-the-shelf fits the client's need.</span></div></div>
+        <div class="item-actions"><button class="yn yes" data-card="sc-customrd" data-section="s3" data-val="yes">Yes</button><button class="yn no" data-card="sc-customrd" data-section="s3" data-val="no">No</button><button class="yn skip" data-card="sc-customrd" data-section="s3" data-val="skip">Not sure</button></div>
         <div class="fb" id="fb-sc-customrd" role="status" aria-live="polite"></div>
       </div>
 
     </div>
     <div class="section-foot wrap-q">
       <div class="foot-left">
-        <button class="foot-back" type="button" data-goto="screen-s1">← Back to Section 2</button>
-        <p class="foot-status" id="status-s2">Answer all 13 items to see your markets.</p>
+        <button class="foot-back" type="button" data-goto="screen-s2">← Back to Efficiency</button>
+        <p class="foot-status" id="status-s3">Answer all 7 items to see your markets.</p>
       </div>
-      <button class="btn next" id="next-s2" type="button" data-action="results">Show me my markets →</button>
+      <button class="btn next" id="next-s3" type="button" data-action="results">Show me my markets →</button>
     </div>
   </div>
 </section>
@@ -720,8 +757,10 @@ const LABELS = {}; SOLUTIONS.forEach(s => LABELS[s.id] = s.label);
 
 const SECTION_IDS = {
   s1: ['sc-funding','sc-utility','sc-financing'],
-  s2: ['sc-hvac-comp','sc-hvac-custom','sc-refrig','sc-powerq','sc-pq-datacenter','sc-motors','sc-led','sc-envelope','sc-iot','sc-solar','sc-battery','sc-ev','sc-customrd'],
+  s2: ['sc-hvac-comp','sc-hvac-custom','sc-refrig','sc-motors','sc-led','sc-envelope'],
+  s3: ['sc-powerq','sc-pq-datacenter','sc-solar','sc-battery','sc-ev','sc-iot','sc-customrd'],
 };
+const TECH_IDS = [...SECTION_IDS.s2, ...SECTION_IDS.s3];
 const ALL_IDS = [...SECTION_IDS.s1, ...SECTION_IDS.s2];
 
 // ─────────────────────────────────────────────
@@ -858,9 +897,9 @@ function goTo(screenId) {
   runReveals(target);
 }
 function updateRail(screenId) {
-  const map = { 'screen-cov':1, 'screen-s1':2, 'screen-s2':3, 'screen-results':4 };
+  const map = { 'screen-cov':1, 'screen-s1':2, 'screen-s2':3, 'screen-s3':4, 'screen-results':5 };
   const current = map[screenId] || 1;
-  for (let i = 1; i <= 4; i++) {
+  for (let i = 1; i <= 5; i++) {
     const step = document.getElementById('rs' + i), num = document.getElementById('rn' + i);
     step.classList.remove('active', 'done');
     if (i < current) { step.classList.add('done'); num.textContent = '✓'; }
@@ -1025,7 +1064,7 @@ function showResults() {
   facWrap.innerHTML = facNote + '<div class="market-grid">' + marketCards + '</div>';
 
   // ── Your stack: capability (technology) + closing (financial), one box ──
-  const tech = sol.filter(s => SECTION_IDS.s2.includes(s.id));
+  const tech = sol.filter(s => TECH_IDS.includes(s.id));
   const haveCap = tech.filter(s => s.status !== 'gap').length;
   const capRows = tech.map(s => {
     const ico = s.status === 'have' ? '✓' : s.status === 'partial' ? '◐' : '✕';
@@ -1083,8 +1122,8 @@ document.querySelectorAll('.sub-toggle .mini').forEach(b => {
   if (text) b.setAttribute('aria-label', (b.dataset.val === 'yes' ? 'Yes' : 'No') + ': ' + text);
 });
 document.querySelectorAll('.yn, .mini').forEach(b => b.setAttribute('aria-pressed', 'false'));
-// keep the catalog numerals sequential after the HVAC / Power Quality splits
-document.querySelectorAll('#grid-s2 .item .idx').forEach((el, i) => { el.textContent = String(i + 1).padStart(2, '0'); });
+// keep each tech grid's catalog numerals sequential
+['#grid-s2', '#grid-s3'].forEach(sel => document.querySelectorAll(sel + ' .item .idx').forEach((el, i) => { el.textContent = String(i + 1).padStart(2, '0'); }));
 renderCoverage();
 wireCoverage();
 updateCoverage();
